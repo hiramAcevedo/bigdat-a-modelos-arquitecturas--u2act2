@@ -37,6 +37,12 @@ const SLIDES = [
   { component: Slide16Referencias,         titulo: 'Referencias'                },
 ]
 
+const SLIDE5_INDEX = 4
+const SLIDE11_INDEX = 10
+const SLIDE12_INDEX = 11
+const SLIDE11_TABS = ['caracteristicas', 'ventajas', 'desventajas']
+const SLIDE12_CARDS = ['lakehouse', 'mesh', 'fabric']
+
 export default function App() {
   const [current,  setCurrent]  = useState(0)
   const [animKey,  setAnimKey]  = useState(0)
@@ -44,33 +50,91 @@ export default function App() {
   const [helpOpen, setHelpOpen] = useState(false)
   const [cameFromIndex, setCameFromIndex] = useState(null)
   const [slide5Step, setSlide5Step] = useState(0)
+  const [slide11Tab, setSlide11Tab] = useState(SLIDE11_TABS[0])
+  const [slide12Card, setSlide12Card] = useState(null)
+  const [isMobileLayout, setIsMobileLayout] = useState(false)
   const slideAreaRef = useRef(null)
+  const slide5Interactive = !isMobileLayout
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1024px)')
+    const syncMobileLayout = () => setIsMobileLayout(media.matches)
+    syncMobileLayout()
+    media.addEventListener('change', syncMobileLayout)
+    return () => media.removeEventListener('change', syncMobileLayout)
+  }, [])
 
   const goTo = useCallback((index) => {
     if (index === current || index < 0 || index >= SLIDES.length) return
-    if (index === 4) setSlide5Step(current < 4 ? 0 : 2)
+    if (index === SLIDE5_INDEX) {
+      setSlide5Step(slide5Interactive ? (current < SLIDE5_INDEX ? 0 : 2) : 2)
+    }
+    if (index === SLIDE11_INDEX) {
+      setSlide11Tab(SLIDE11_TABS[0])
+    }
+    if (index === SLIDE12_INDEX) {
+      setSlide12Card(null)
+    }
     setCameFromIndex(current)
     setCurrent(index)
     setAnimKey(k => k + 1)
     setNavOpen(false)
     setHelpOpen(false)
-  }, [current])
+  }, [current, slide5Interactive])
 
   const goForward = useCallback(() => {
-    if (current === 4 && slide5Step < 2) {
+    if (current === SLIDE5_INDEX && slide5Interactive && slide5Step < 2) {
       setSlide5Step(s => s + 1)
       return
     }
+    if (current === SLIDE11_INDEX) {
+      const tabIndex = SLIDE11_TABS.indexOf(slide11Tab)
+      if (tabIndex < SLIDE11_TABS.length - 1) {
+        setSlide11Tab(SLIDE11_TABS[tabIndex + 1])
+        return
+      }
+    }
+    if (current === SLIDE12_INDEX) {
+      if (slide12Card === null) {
+        setSlide12Card(SLIDE12_CARDS[0])
+        return
+      }
+      const cardIndex = SLIDE12_CARDS.indexOf(slide12Card)
+      if (cardIndex < SLIDE12_CARDS.length - 1) {
+        setSlide12Card(SLIDE12_CARDS[cardIndex + 1])
+        return
+      }
+    }
     goTo(current + 1)
-  }, [current, slide5Step, goTo])
+  }, [current, slide5Interactive, slide5Step, slide11Tab, slide12Card, goTo])
 
   const goBackward = useCallback(() => {
-    if (current === 4 && slide5Step > 0) {
+    if (current === SLIDE5_INDEX && slide5Interactive && slide5Step > 0) {
       setSlide5Step(s => s - 1)
       return
     }
+    if (current === SLIDE11_INDEX) {
+      const tabIndex = SLIDE11_TABS.indexOf(slide11Tab)
+      if (tabIndex > 0) {
+        setSlide11Tab(SLIDE11_TABS[tabIndex - 1])
+        return
+      }
+    }
+    if (current === SLIDE12_INDEX) {
+      if (slide12Card === null) {
+        goTo(current - 1)
+        return
+      }
+      const cardIndex = SLIDE12_CARDS.indexOf(slide12Card)
+      if (cardIndex > 0) {
+        setSlide12Card(SLIDE12_CARDS[cardIndex - 1])
+        return
+      }
+      setSlide12Card(null)
+      return
+    }
     goTo(current - 1)
-  }, [current, slide5Step, goTo])
+  }, [current, slide5Interactive, slide5Step, slide11Tab, slide12Card, goTo])
 
   useEffect(() => {
     const onKey = (e) => {
@@ -130,7 +194,7 @@ export default function App() {
       window.removeEventListener('resize', updateFade)
       slideEl.style.removeProperty('--slide-fade-progress')
     }
-  }, [current, animKey, slide5Step, navOpen])
+  }, [current, animKey, slide5Step, navOpen, slide11Tab, slide12Card])
 
   useEffect(() => {
     const area = slideAreaRef.current
@@ -184,7 +248,7 @@ export default function App() {
       window.removeEventListener('resize', onResize)
       tabsEl.style.removeProperty('--slide11-sticky-progress')
     }
-  }, [current, animKey, slide5Step, navOpen])
+  }, [current, animKey, slide5Step, navOpen, slide11Tab])
 
   const SlideComp = SLIDES[current].component
   const progress  = ((current + 1) / SLIDES.length) * 100
@@ -286,6 +350,11 @@ export default function App() {
           slideIndex={current}
           slide5Step={slide5Step}
           setSlide5Step={setSlide5Step}
+          slide5Interactive={slide5Interactive}
+          activeSlide11Tab={slide11Tab}
+          setActiveSlide11Tab={setSlide11Tab}
+          activeSlide12Card={slide12Card}
+          setActiveSlide12Card={setSlide12Card}
         />
       </main>
 

@@ -26,10 +26,13 @@ const CARD_REDUCE = {
   border:       '1px solid rgba(138,74,26,0.4)',
 };
 
-export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
-  const step = slide5Step ?? 0;
+export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step, slide5Interactive = true }) {
+  const step = slide5Interactive ? (slide5Step ?? 0) : MAX_STEP;
 
-  const goToStep = (n) => (setSlide5Step ?? (() => {}))(Math.max(0, Math.min(n, MAX_STEP)));
+  const goToStep = (n) => {
+    if (!slide5Interactive) return;
+    (setSlide5Step ?? (() => {}))(Math.max(0, Math.min(n, MAX_STEP)));
+  };
 
   const inputData = [
     { file: 1, data: ['Toronto, 18 °C', 'Londres, 15 °C', 'Tokio, 25 °C'] },
@@ -78,6 +81,10 @@ export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
     color:      '#FAF3E1',
   };
 
+  const showEntrada = true;
+  const showMap = slide5Interactive ? step >= 1 : true;
+  const showReduce = slide5Interactive ? step >= 2 : true;
+
   return (
     <div className="slide">
       <h2 className="slide-titulo">MapReduce en acción</h2>
@@ -93,7 +100,7 @@ export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
           <button
             key={s}
             className="slide05-step-btn"
-            style={step === s ? BTN_ACTIVE : BTN_BASE}
+            style={slide5Interactive && step === s ? BTN_ACTIVE : BTN_BASE}
             onClick={() => goToStep(s)}
           >
             {label}
@@ -105,8 +112,8 @@ export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
       <div className="slide05-columns">
         {/* ENTRADA — siempre visible desde paso 0 */}
         <div className="slide05-column" style={{
-          opacity: step >= 0 ? 1 : 0,
-          pointerEvents: step >= 0 ? 'auto' : 'none',
+          opacity: showEntrada ? 1 : 0,
+          pointerEvents: showEntrada ? 'auto' : 'none',
         }}>
           <h4 style={{ color: '#2d7a4f', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Entrada
@@ -127,8 +134,9 @@ export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
 
         {/* MAP — visible desde paso 1 */}
         <div className="slide05-column" style={{
-          opacity: step >= 1 ? 1 : 0,
-          pointerEvents: step >= 1 ? 'auto' : 'none',
+          opacity: showMap ? 1 : 0,
+          pointerEvents: showMap ? 'auto' : 'none',
+          display: showMap || slide5Interactive ? 'block' : 'none',
         }}>
             <h4 style={{ color: '#FA8112', marginBottom: '10px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Map
@@ -165,8 +173,9 @@ export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
 
         {/* REDUCE — visible desde paso 2 */}
         <div className="slide05-column" style={{
-          opacity: step >= 2 ? 1 : 0,
-          pointerEvents: step >= 2 ? 'auto' : 'none',
+          opacity: showReduce ? 1 : 0,
+          pointerEvents: showReduce ? 'auto' : 'none',
+          display: showReduce || slide5Interactive ? 'block' : 'none',
         }}>
           <h4 style={{ color: '#8a4a1a', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Reduce

@@ -272,13 +272,13 @@
 }
 .edge-nav--left {
   left: 0;
-  border-right: 1px solid rgba(250, 129, 18, 0.1);
-  background: linear-gradient(90deg, rgba(250, 129, 18, 0.07), transparent);
+  border-right: none;
+  background: transparent;
 }
 .edge-nav--right {
   right: 0;
-  border-left: 1px solid rgba(250, 129, 18, 0.1);
-  background: linear-gradient(270deg, rgba(250, 129, 18, 0.07), transparent);
+  border-left: none;
+  background: transparent;
 }
 .edge-nav span {
   font-size: 1.1rem;
@@ -290,7 +290,7 @@
   pointer-events: none;
 }
 .edge-nav:not(:disabled):active {
-  background-color: rgba(250, 129, 18, 0.18);
+  background-color: transparent;
   color: var(--cyan);
 }
 
@@ -1120,7 +1120,7 @@ td:first-child { color: var(--white); font-weight: 600; }
     padding-bottom: 92px;
   }
   .slide {
-    padding: 1.2rem 0.95rem 1rem;
+    padding: 1.2rem 1.12rem 1.02rem;
     --slide-fade-height: 84px;
     --slide-fade-progress: 1;
     --slide-fade-current: calc(var(--slide-fade-height) * var(--slide-fade-progress));
@@ -1141,14 +1141,42 @@ td:first-child { color: var(--white); font-weight: 600; }
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
   }
+  .slide::before {
+    display: none;
+  }
   .slide.slide--full {
     -webkit-mask-image: none;
     mask-image: none;
+  }
+  .slide--portada {
+    background: transparent !important;
+  }
+  .slide--portada .portada-texture {
+    opacity: 0.24;
+  }
+  .slide--portada .portada-gradient {
+    background: radial-gradient(
+      ellipse 130% 118% at 50% 42%,
+      rgba(250,243,225,0.78) 0%,
+      rgba(250,243,225,0.36) 52%,
+      rgba(250,243,225,0.08) 100%
+    );
+    opacity: 0.6;
   }
   .slide-subtitulo {
     font-size: 0.73rem;
     letter-spacing: 0.09em;
     flex-wrap: wrap;
+  }
+  .p-slide {
+    font-size: 0.98rem;
+    line-height: 1.74;
+    margin-bottom: 1.06rem;
+  }
+  .cita {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    padding: 0.72rem 1.05rem;
   }
   .slide-subtitulo::after {
     max-width: 130px;
@@ -1229,15 +1257,15 @@ td:first-child { color: var(--white); font-weight: 600; }
     padding-bottom: 88px;
   }
   .slide {
-    padding: 1.05rem 0.8rem 0.95rem;
+    padding: 1.06rem 0.95rem 0.95rem;
     --slide-fade-height: 74px;
   }
   .slide-titulo {
     font-size: clamp(1.25rem, 7vw, 1.55rem);
   }
   .p-slide {
-    font-size: 0.9rem;
-    line-height: 1.65;
+    font-size: 0.96rem;
+    line-height: 1.72;
   }
   .edge-nav {
     width: 28px;

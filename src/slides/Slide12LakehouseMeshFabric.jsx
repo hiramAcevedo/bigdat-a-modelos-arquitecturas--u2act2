@@ -1,7 +1,12 @@
 import { useState } from 'react';
 
-export default function Slide12LakehouseMeshFabric() {
-  const [expandedCard, setExpandedCard] = useState(null);
+const DEFAULT_CARD = null;
+
+export default function Slide12LakehouseMeshFabric({ activeSlide12Card, setActiveSlide12Card }) {
+  const [internalExpandedCard, setInternalExpandedCard] = useState(DEFAULT_CARD);
+  const isControlled = activeSlide12Card !== undefined;
+  const expandedCard = isControlled ? activeSlide12Card : internalExpandedCard;
+  const setExpandedCard = isControlled ? setActiveSlide12Card : setInternalExpandedCard;
 
   const cards = [
     {
@@ -39,7 +44,7 @@ export default function Slide12LakehouseMeshFabric() {
   ];
 
   const toggleCard = (id) => {
-    setExpandedCard(expandedCard === id ? null : id);
+    setExpandedCard((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -67,23 +72,8 @@ export default function Slide12LakehouseMeshFabric() {
             >
               {expandedCard === card.id ? (
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexShrink: 0 }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--white)' }}>{card.titulo}</div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleCard(card.id);
-                      }}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--cyan)',
-                        fontSize: '1.5rem',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      ×
-                    </button>
+                  <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--white)', marginBottom: '1rem', flexShrink: 0 }}>
+                    {card.titulo}
                   </div>
                   
                   <div className="slide12-expanded-copy">

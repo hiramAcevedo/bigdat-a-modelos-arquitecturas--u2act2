@@ -2,7 +2,7 @@ import React from 'react';
 
 const Slide01Portada = () => {
   return (
-    <div className="slide slide--full" style={styles.container}>
+    <div className="slide slide--full slide--portada" style={styles.container}>
       <style>{keyframes}</style>
       <svg style={styles.gridPattern} preserveAspectRatio="none" viewBox="0 0 1200 800">
         <defs>
@@ -24,31 +24,31 @@ const Slide01Portada = () => {
           <div style={{ ...styles.dot, animationDelay: '0.4s' }}></div>
         </div>
 
-        <h1 style={styles.title}>Modelos y arquitecturas para Big Data</h1>
-        <div style={styles.titleUnderline}></div>
+        <h1 className="portada-title" style={styles.title}>Modelos y arquitecturas para Big Data</h1>
+        <div className="portada-title-underline" style={styles.titleUnderline}></div>
 
         <div style={styles.metadata}>
           <p style={styles.metadataItem}>
-            <span style={styles.label}>Presentado por:</span>
-            <span style={styles.value}>Hiram Agustín Acevedo López</span>
+            <span className="portada-label" style={styles.label}>Presentado por:</span>
+            <span className="portada-value" style={styles.value}>Hiram Agustín Acevedo López</span>
           </p>
           <p style={styles.metadataItem}>
-            <span style={styles.label}>Programa:</span>
-            <span style={styles.value}>Licenciatura en Desarrollo de Sistemas Web</span>
+            <span className="portada-label" style={styles.label}>Programa:</span>
+            <span className="portada-value" style={styles.value}>Licenciatura en Desarrollo de Sistemas Web</span>
           </p>
           <p style={styles.metadataItem}>
-            <span style={styles.label}>Asignatura:</span>
-            <span style={styles.value}>Uso de Big Data para Toma de Decisiones</span>
+            <span className="portada-label" style={styles.label}>Asignatura:</span>
+            <span className="portada-value" style={styles.value}>Uso de Big Data para Toma de Decisiones</span>
           </p>
           <p style={styles.metadataItem}>
-            <span style={styles.label}>Asesor:</span>
-            <span style={styles.value}>RIGOBERTO CARDENAS LARIOS</span>
+            <span className="portada-label" style={styles.label}>Asesor:</span>
+            <span className="portada-value" style={styles.value}>RIGOBERTO CARDENAS LARIOS</span>
           </p>
         </div>
 
         <div style={styles.footer}>
-          <p style={styles.activity}>Unidad 2 · Actividad 2</p>
-          <p style={styles.date}>18 de febrero de 2026</p>
+          <p className="portada-activity" style={styles.activity}>Unidad 2 · Actividad 2</p>
+          <p className="portada-date" style={styles.date}>18 de febrero de 2026</p>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@ const styles = {
   container: {
     width: '100%',
     height: '100%',
-    background: '#FAF3E1',
+    background: 'transparent',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
-export default function Slide11DWvsDL() {
-  const [activeTab, setActiveTab] = useState('caracteristicas');
+const DEFAULT_TAB = 'caracteristicas';
+
+export default function Slide11DWvsDL({ activeSlide11Tab, setActiveSlide11Tab }) {
+  const [internalTab, setInternalTab] = useState(DEFAULT_TAB);
+  const activeTab = activeSlide11Tab ?? internalTab;
+  const setActiveTab = setActiveSlide11Tab ?? setInternalTab;
 
   const dwContent = {
     caracteristicas: [

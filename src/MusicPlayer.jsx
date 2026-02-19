@@ -10,16 +10,12 @@ export default function MusicPlayer() {
   const [volume,  setVolume]    = useState(DEFAULT_VOLUME)
   const [ready,   setReady]     = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
   const playerRef               = useRef(null)
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 768px)')
-    const syncMobileState = () => {
-      const mobile = media.matches
-      setIsMobile(mobile)
-      setCollapsed(mobile)
-    }
+    const syncMobileState = () => setIsMobile(media.matches)
     syncMobileState()
     media.addEventListener('change', syncMobileState)
     return () => media.removeEventListener('change', syncMobileState)
@@ -102,11 +98,10 @@ export default function MusicPlayer() {
   }
 
   const toggleCollapsed = () => {
-    if (!isMobile) return
     setCollapsed(v => !v)
   }
 
-  const showControls = !isMobile || !collapsed
+  const showControls = !collapsed
 
   return (
     <div style={{ ...styles.container, ...(isMobile ? styles.containerMobile : null), ...(collapsed ? styles.containerCollapsed : null) }}>
@@ -119,8 +114,8 @@ export default function MusicPlayer() {
       <button
         onClick={toggleCollapsed}
         style={{ ...styles.iconBtn, ...(isMobile ? styles.iconBtnMobile : null) }}
-        title={isMobile ? (collapsed ? 'Mostrar controles de música' : 'Ocultar controles de música') : 'Música'}
-        aria-label={isMobile ? (collapsed ? 'Mostrar controles de música' : 'Ocultar controles de música') : 'Música'}
+        title={collapsed ? 'Mostrar controles de música' : 'Ocultar controles de música'}
+        aria-label={collapsed ? 'Mostrar controles de música' : 'Ocultar controles de música'}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#FA8112" style={{ opacity: 0.92, flexShrink: 0 }}>
           <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3z"/>

@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -46,6 +47,24 @@ button {
   background: none;
   font-family: inherit;
   color: inherit;
+}
+
+@media (hover: none), (pointer: coarse) {
+  button:focus,
+  button:focus-visible,
+  a:focus,
+  a:focus-visible,
+  input:focus,
+  input:focus-visible,
+  select:focus,
+  select:focus-visible,
+  textarea:focus,
+  textarea:focus-visible,
+  [role='button']:focus,
+  [role='button']:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
 h1, h2, h3, h4 {
