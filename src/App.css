@@ -20,6 +20,41 @@
 /* ===================================================
    BOTÓN HAMBURGUESA — ahora en esquina superior DERECHA
    =================================================== */
+.fullscreen-toggle {
+  position: fixed;
+  top: 1.2rem;
+  right: calc(1.2rem + 46px);
+  z-index: 200;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: rgba(250, 129, 18, 0.1);
+  border: 1px solid rgba(250, 129, 18, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.fullscreen-toggle span {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--cyan);
+  border-radius: 2px;
+  transition: transform 0.2s;
+}
+.fullscreen-toggle:hover,
+.fullscreen-toggle.open {
+  background: rgba(250, 129, 18, 0.2);
+  border-color: var(--cyan);
+}
+.fullscreen-toggle.open span {
+  transform: scale(0.8);
+}
+.fullscreen-toggle:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
 .nav-toggle {
   position: fixed;
   top: 1.2rem;
@@ -220,31 +255,59 @@
   pointer-events: none;
   z-index: 0;
 }
-/* Slides 15 y 16: fondo café en todo el área para que el barrido no muestre blanco */
-.slide-area:has(.slide--dark-full) {
+/* Capa de fondo para barridos oscuros (slides 15 y 16) */
+.slide-area::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: #2a1a0a;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  clip-path: inset(0 0 0 100%);
 }
-.slide-area:has(.slide--dark-full)::before {
-  display: none;
+.slide-area:has(.slide--dark-full)::after {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
 }
 /* Slides 15 y 16: barrido de derecha a izquierda (cara ancha) */
 @keyframes slideWipeIn {
   from { clip-path: inset(0 0 0 100%); }
   to   { clip-path: inset(0 0 0 0); }
 }
+@keyframes darkBgWipeIn {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
 .slide-area.enter:has(.slide--dark-full) {
   animation: none;
 }
+.slide-area.enter:has(.slide--dark-full)::after {
+  animation: darkBgWipeIn 0.45s ease both;
+}
 .slide-area.enter:has(.slide--dark-full) .slide--dark-full {
   animation: slideWipeIn 0.45s ease both;
+}
+.slide-area.enter.slide-area--dark-continuous::after {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  animation: none;
 }
 /* Volver de 15 a 14: barrido al revés (izquierda a derecha) */
 @keyframes slideWipeFromLeft {
   from { clip-path: inset(0 100% 0 0); }
   to   { clip-path: inset(0 0 0 0); }
 }
+@keyframes darkBgWipeOutToRight {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 0 100%); }
+}
 .slide-area.enter.slide-area--from-dark {
   animation: none;
+}
+.slide-area.enter.slide-area--from-dark::after {
+  opacity: 1;
+  animation: darkBgWipeOutToRight 0.45s ease both;
 }
 .slide-area.enter.slide-area--from-dark > .slide {
   animation: slideWipeFromLeft 0.45s ease both;
@@ -1058,6 +1121,10 @@ td:first-child { color: var(--white); font-weight: 600; }
 }
 
 @media (max-width: 1024px) {
+  .slide15-conclusion,
+  .slide16-referencias {
+    justify-content: flex-start !important;
+  }
   .slide-area {
     align-items: stretch;
   }
@@ -1104,6 +1171,12 @@ td:first-child { color: var(--white); font-weight: 600; }
 }
 
 @media (max-width: 768px) {
+  .fullscreen-toggle {
+    top: 0.75rem;
+    right: calc(0.75rem + 40px);
+    width: 34px;
+    height: 34px;
+  }
   .nav-toggle {
     top: 0.75rem;
     right: 0.75rem;
@@ -1249,6 +1322,52 @@ td:first-child { color: var(--white); font-weight: 600; }
   }
   .flujo-wrap {
     padding: 0.75rem 0.5rem 1rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) and (max-width: 1024px) {
+  .slide--portada {
+    justify-content: flex-start;
+  }
+  .slide--portada .portada-content {
+    max-width: min(1120px, 100%);
+    padding: 0.52rem 1.05rem 0.68rem;
+  }
+  .slide--portada .portada-dots {
+    margin-bottom: 0.48rem !important;
+    transform: scale(0.82);
+  }
+  .slide--portada .portada-title {
+    font-size: clamp(1.5rem, 4.3vw, 2.35rem) !important;
+    line-height: 1.06 !important;
+    margin-bottom: 0.42rem !important;
+  }
+  .slide--portada .portada-title-underline {
+    width: clamp(58px, 12vw, 96px) !important;
+    height: 3px !important;
+    margin-bottom: 0.72rem !important;
+  }
+  .slide--portada .portada-metadata {
+    margin-bottom: 0.55rem !important;
+  }
+  .slide--portada .portada-metadata p {
+    margin: 0.28rem 0 !important;
+    font-size: clamp(0.74rem, 1.8vw, 0.84rem) !important;
+    line-height: 1.35 !important;
+  }
+  .slide--portada .portada-footer {
+    margin-top: 0.5rem !important;
+  }
+  .slide--portada .portada-activity,
+  .slide--portada .portada-date {
+    margin: 0.24rem 0 !important;
+    font-size: clamp(0.64rem, 1.5vw, 0.76rem) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1024px) {
+  .slide--portada .portada-dots {
+    display: none !important;
   }
 }
 

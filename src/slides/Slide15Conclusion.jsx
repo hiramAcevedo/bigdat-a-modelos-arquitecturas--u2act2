@@ -12,7 +12,7 @@ const styles = {
     background: '#2a1a0a',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     padding: 'clamp(1rem, 4.5vw, 3rem) clamp(1.12rem, 5.2vw, 3rem)',
     boxSizing: 'border-box',
     overflow: 'auto',
@@ -69,7 +69,7 @@ const styles = {
 };
 
 const Slide15Conclusion = () => (
-  <div className="slide slide--dark-full" style={styles.container}>
+  <div className="slide slide--dark-full slide15-conclusion" style={styles.container}>
     <style>{hideSlideBar}</style>
 
     <div style={styles.content}>

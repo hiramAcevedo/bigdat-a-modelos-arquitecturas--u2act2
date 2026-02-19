@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import Slide01Portada               from './slides/Slide01Portada'
 import Slide02Intro                 from './slides/Slide02Intro'
 import Slide03TradicionalVsBig      from './slides/Slide03TradicionalVsBig'
@@ -48,6 +48,7 @@ export default function App() {
   const [animKey,  setAnimKey]  = useState(0)
   const [navOpen,  setNavOpen]  = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [cameFromIndex, setCameFromIndex] = useState(null)
   const [slide5Step, setSlide5Step] = useState(0)
   const [slide11Tab, setSlide11Tab] = useState(SLIDE11_TABS[0])
@@ -55,6 +56,20 @@ export default function App() {
   const [isMobileLayout, setIsMobileLayout] = useState(false)
   const slideAreaRef = useRef(null)
   const slide5Interactive = !isMobileLayout
+  const isDarkSlide = current >= 14
+  const cameFromDarkSlide = cameFromIndex !== null && cameFromIndex >= 14
+  const keepDarkBackgroundDuringTransition = isDarkSlide && cameFromDarkSlide
+
+  const fullscreenEnabled = useMemo(() => {
+    if (typeof document === 'undefined') return false
+    const rootEl = document.documentElement
+    return Boolean(
+      rootEl.requestFullscreen ||
+      rootEl.webkitRequestFullscreen ||
+      document.exitFullscreen ||
+      document.webkitExitFullscreen
+    )
+  }, [])
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 1024px)')
@@ -63,6 +78,51 @@ export default function App() {
     media.addEventListener('change', syncMobileLayout)
     return () => media.removeEventListener('change', syncMobileLayout)
   }, [])
+
+  useEffect(() => {
+    const syncFullscreenState = () => {
+      const active = Boolean(document.fullscreenElement || document.webkitFullscreenElement)
+      setIsFullscreen(active)
+    }
+
+    syncFullscreenState()
+    document.addEventListener('fullscreenchange', syncFullscreenState)
+    document.addEventListener('webkitfullscreenchange', syncFullscreenState)
+    return () => {
+      document.removeEventListener('fullscreenchange', syncFullscreenState)
+      document.removeEventListener('webkitfullscreenchange', syncFullscreenState)
+    }
+  }, [])
+
+  const toggleFullscreen = useCallback(async () => {
+    if (!fullscreenEnabled) return
+
+    const rootEl = document.documentElement
+    const active = Boolean(document.fullscreenElement || document.webkitFullscreenElement)
+
+    try {
+      if (!active) {
+        if (rootEl.requestFullscreen) {
+          await rootEl.requestFullscreen()
+          return
+        }
+        if (rootEl.webkitRequestFullscreen) {
+          rootEl.webkitRequestFullscreen()
+        }
+        return
+      }
+
+      if (document.exitFullscreen) {
+        await document.exitFullscreen()
+        return
+      }
+      if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      }
+    } catch {
+      // Ignore browser-specific fullscreen promise rejections.
+    }
+  }, [fullscreenEnabled])
 
   const goTo = useCallback((index) => {
     if (index === current || index < 0 || index >= SLIDES.length) return
@@ -257,6 +317,20 @@ export default function App() {
     <div className="app">
       {/* Botón hamburguesa */}
       <button
+        className={`fullscreen-toggle ${isFullscreen ? 'open' : ''}`}
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? 'Salir de pantalla completa' : 'Entrar a pantalla completa'}
+        title={
+          fullscreenEnabled
+            ? (isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa')
+            : 'Pantalla completa no disponible en este navegador'
+        }
+        disabled={!fullscreenEnabled}
+      >
+        <span />
+      </button>
+
+      <button
         className={`nav-toggle ${navOpen ? 'open' : ''}`}
         onClick={() => {
           setHelpOpen(false)
@@ -326,7 +400,7 @@ export default function App() {
       <main
         key={animKey}
         ref={slideAreaRef}
-        className={`slide-area enter${current === 13 && cameFromIndex === 14 ? ' slide-area--from-dark' : ''}`}
+        className={`slide-area enter${current === 13 && cameFromIndex === 14 ? ' slide-area--from-dark' : ''}${keepDarkBackgroundDuringTransition ? ' slide-area--dark-continuous' : ''}`}
       >
         <button
           className="edge-nav edge-nav--left"

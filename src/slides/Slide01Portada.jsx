@@ -17,8 +17,8 @@ const Slide01Portada = () => {
       <div className="portada-texture" aria-hidden="true" />
       <div className="portada-gradient" aria-hidden="true" />
 
-      <div style={styles.content}>
-        <div style={styles.dotsContainer}>
+      <div className="portada-content" style={styles.content}>
+        <div className="portada-dots" style={styles.dotsContainer}>
           <div style={{ ...styles.dot, animationDelay: '0s' }}></div>
           <div style={{ ...styles.dot, animationDelay: '0.2s' }}></div>
           <div style={{ ...styles.dot, animationDelay: '0.4s' }}></div>
@@ -27,7 +27,7 @@ const Slide01Portada = () => {
         <h1 className="portada-title" style={styles.title}>Modelos y arquitecturas para Big Data</h1>
         <div className="portada-title-underline" style={styles.titleUnderline}></div>
 
-        <div style={styles.metadata}>
+        <div className="portada-metadata" style={styles.metadata}>
           <p style={styles.metadataItem}>
             <span className="portada-label" style={styles.label}>Presentado por:</span>
             <span className="portada-value" style={styles.value}>Hiram Agustín Acevedo López</span>
@@ -46,7 +46,7 @@ const Slide01Portada = () => {
           </p>
         </div>
 
-        <div style={styles.footer}>
+        <div className="portada-footer" style={styles.footer}>
           <p className="portada-activity" style={styles.activity}>Unidad 2 · Actividad 2</p>
           <p className="portada-date" style={styles.date}>18 de febrero de 2026</p>
         </div>

@@ -115,7 +115,7 @@ const styles = {
     background: '#2a1a0a',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     padding: 'clamp(0.75rem, 3.8vh, 2.2rem) clamp(1.05rem, 4.8vw, 2.65rem)',
     boxSizing: 'border-box',
     overflow: 'auto',
