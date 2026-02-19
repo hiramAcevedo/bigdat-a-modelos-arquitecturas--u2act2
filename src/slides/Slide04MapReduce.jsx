@@ -25,90 +25,40 @@ export default function Slide04MapReduce() {
         ejecutar millones de operaciones en paralelo sobre cientos de nodos.
       </p>
 
-      {/* Diagrama de flujo: padding para que el hover (translateY) no se recorte */}
-      <div className="flujo-wrap" style={{ marginTop: '1.2rem' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '0',
-          minWidth: 'max-content',
-        }}>
-          {STEPS.map((step, idx) => (
-            <div key={idx} style={{ display: 'flex', alignItems: 'flex-start' }}>
-
-              {/* Nodo */}
+      <div className="slide04-flow">
+        {STEPS.map((step, idx) => (
+          <React.Fragment key={idx}>
+            <div
+              className="slide04-step"
+              onMouseEnter={() => setHovered(idx)}
+              onMouseLeave={() => setHovered(null)}
+            >
               <div
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', width: '110px' }}
-                onMouseEnter={() => setHovered(idx)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                <div style={{
-                  width: '90px',
-                  padding: '0.55rem 0.4rem',
-                  borderRadius: '8px',
-                  textAlign: 'center',
+                className="slide04-box"
+                style={{
                   background: step.bg,
                   color: step.text,
-                  fontWeight: '700',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  border: `2px solid ${step.border || step.bg}`,
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  transform: hovered === idx ? 'translateY(-4px)' : 'none',
+                  borderColor: step.border || step.bg,
+                  transform: hovered === idx ? 'scale(1.018)' : 'scale(1)',
                   boxShadow: hovered === idx
                     ? '0 8px 20px rgba(90,58,26,0.25)'
                     : '0 2px 6px rgba(90,58,26,0.12)',
-                }}>
-                  {step.label}
-                </div>
-
-                <div style={{
-                  fontSize: '0.64rem',
-                  color: '#8a6a4a',
-                  textAlign: 'center',
-                  lineHeight: '1.35',
-                  maxWidth: '100px',
-                  minHeight: '2.5rem',
-                  transition: 'color 0.2s',
-                  ...(hovered === idx ? { color: '#5a3a1a', fontWeight: '600' } : {}),
-                }}>
-                  {step.desc}
-                </div>
+                }}
+              >
+                {step.label}
               </div>
 
-              {/* Flecha */}
-              {idx < STEPS.length - 1 && (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '32px',
-                  margin: '0 2px',
-                  marginTop: '4px',
-                }}>
-                  <div style={{
-                    width: '22px',
-                    height: '2px',
-                    background: '#FA8112',
-                    position: 'relative',
-                  }}>
-                    <div style={{
-                      position: 'absolute',
-                      right: '-1px',
-                      top: '-4px',
-                      width: 0,
-                      height: 0,
-                      borderLeft: '7px solid #FA8112',
-                      borderTop: '5px solid transparent',
-                      borderBottom: '5px solid transparent',
-                    }} />
-                  </div>
-                </div>
-              )}
+              <div
+                className="slide04-desc"
+                style={hovered === idx ? { color: '#5a3a1a', fontWeight: '600' } : undefined}
+              >
+                {step.desc}
+              </div>
             </div>
-          ))}
-        </div>
+
+            {idx < STEPS.length - 1 && <div className="slide04-arrow">↓</div>}
+          </React.Fragment>
+        ))}
       </div>
 
       <div className="apa" style={{ marginTop: '1rem' }}>

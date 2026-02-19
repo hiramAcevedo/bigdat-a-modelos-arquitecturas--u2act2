@@ -52,6 +52,7 @@ export default function Slide12LakehouseMeshFabric() {
           {cards.map((card) => (
             <div
               key={card.id}
+              className="slide12-card"
               onClick={() => toggleCard(card.id)}
               style={{
                 backgroundColor: 'var(--bg-card)',
@@ -60,7 +61,6 @@ export default function Slide12LakehouseMeshFabric() {
                 cursor: 'pointer',
                 border: '1px solid rgba(250, 129, 18, 0.2)',
                 transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
-                minHeight: '420px',
                 display: 'flex',
                 flexDirection: 'column'
               }}
@@ -86,7 +86,7 @@ export default function Slide12LakehouseMeshFabric() {
                     </button>
                   </div>
                   
-                  <div style={{ fontSize: '0.9rem', color: 'var(--white)', lineHeight: '1.6', marginBottom: '1rem', flex: 1, overflowY: 'auto' }}>
+                  <div className="slide12-expanded-copy">
                     {card.expandedDetail}
                   </div>
                   

@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 export default function Slide02Intro() {
-  const [counter, setCounter] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCounter((prev) => (prev + 1) % 3);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   const facts = [
     { label: 'Datos por minuto', value: '402M TB/día' },
     { label: 'Búsquedas Google', value: '5.9M/min' },

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 
 /* Paso 0 = solo Entrada, 1 = Entrada+Map, 2 = Entrada+Map+Reduce (acumulativo, nada se quita) */
 const MAX_STEP = 2;
@@ -26,34 +26,8 @@ const CARD_REDUCE = {
   border:       '1px solid rgba(138,74,26,0.4)',
 };
 
-export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, slide5Step, setSlide5Step }) {
+export default function Slide05MapReduceEjemplo({ slide5Step, setSlide5Step }) {
   const step = slide5Step ?? 0;
-  const setStep = setSlide5Step ?? (() => {});
-  const stepRef = useRef(step);
-  stepRef.current = step;
-
-  useEffect(() => {
-    if (slideKeyHandlers && setSlide5Step && slideIndex === 4) {
-      slideKeyHandlers.current.handleArrowRight = () => {
-        const s = stepRef.current;
-        if (s >= MAX_STEP) return false;
-        setSlide5Step(s + 1);
-        return true;
-      };
-      slideKeyHandlers.current.handleArrowLeft = () => {
-        const s = stepRef.current;
-        if (s <= 0) return false;
-        setSlide5Step(s - 1);
-        return true;
-      };
-    }
-    return () => {
-      if (slideKeyHandlers?.current) {
-        slideKeyHandlers.current.handleArrowRight = null;
-        slideKeyHandlers.current.handleArrowLeft = null;
-      }
-    };
-  }, [slideIndex, slideKeyHandlers, setSlide5Step]);
 
   const goToStep = (n) => (setSlide5Step ?? (() => {}))(Math.max(0, Math.min(n, MAX_STEP)));
 
@@ -110,7 +84,7 @@ export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, 
       <p className="slide-subtitulo">Ejemplo práctico: temperatura máxima por ciudad</p>
 
       {/* Botones: Entrada, Map, Reduce (pasos acumulativos; flechas también avanzan/retroceden) */}
-      <div style={{ marginBottom: '0.6rem' }}>
+      <div className="slide05-step-nav">
         {[
           { step: 0, label: 'Entrada' },
           { step: 1, label: 'Map'     },
@@ -118,6 +92,7 @@ export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, 
         ].map(({ step: s, label }) => (
           <button
             key={s}
+            className="slide05-step-btn"
             style={step === s ? BTN_ACTIVE : BTN_BASE}
             onClick={() => goToStep(s)}
           >
@@ -127,12 +102,10 @@ export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, 
       </div>
 
       {/* Fases acumulativas: Entrada se queda, se agrega Map, luego Reduce */}
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+      <div className="slide05-columns">
         {/* ENTRADA — siempre visible desde paso 0 */}
-        <div style={{
-          flex: 1,
+        <div className="slide05-column" style={{
           opacity: step >= 0 ? 1 : 0,
-          transition: 'opacity 0.35s ease',
           pointerEvents: step >= 0 ? 'auto' : 'none',
         }}>
           <h4 style={{ color: '#2d7a4f', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -153,10 +126,8 @@ export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, 
         </div>
 
         {/* MAP — visible desde paso 1 */}
-        <div style={{
-          flex: 1,
+        <div className="slide05-column" style={{
           opacity: step >= 1 ? 1 : 0,
-          transition: 'opacity 0.35s ease',
           pointerEvents: step >= 1 ? 'auto' : 'none',
         }}>
             <h4 style={{ color: '#FA8112', marginBottom: '10px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -193,10 +164,8 @@ export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, 
         </div>
 
         {/* REDUCE — visible desde paso 2 */}
-        <div style={{
-          flex: 1,
+        <div className="slide05-column" style={{
           opacity: step >= 2 ? 1 : 0,
-          transition: 'opacity 0.35s ease',
           pointerEvents: step >= 2 ? 'auto' : 'none',
         }}>
           <h4 style={{ color: '#8a4a1a', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>

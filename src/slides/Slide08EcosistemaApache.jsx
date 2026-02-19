@@ -60,11 +60,11 @@ export default function Slide08EcosistemaApache() {
         Hadoop no trabaja solo. Un ecosistema completo de herramientas Apache complementa sus capacidades, cubriendo desde la ingesta y transporte de datos hasta su consulta, análisis y orquestación de flujos de trabajo (Joyanes Aguilar, 2016).
       </p>
 
-      <div className="lista-icono" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '30px' }}>
+      <div className="lista-icono slide08-grid">
         {/* Left column */}
-        <div>
+        <div className="slide08-column">
           {leftItems.map((item, idx) => (
-            <div key={idx} style={{ marginBottom: '20px', display: 'flex', gap: '15px' }}>
+            <div key={idx} className="slide08-item">
               <div className="icono-inicial" style={{ background: circleBg, color: circleColor }}>
                 {item.initial}
               </div>
@@ -77,9 +77,9 @@ export default function Slide08EcosistemaApache() {
         </div>
 
         {/* Right column */}
-        <div>
+        <div className="slide08-column">
           {rightItems.map((item, idx) => (
-            <div key={idx} style={{ marginBottom: '20px', display: 'flex', gap: '15px' }}>
+            <div key={idx} className="slide08-item">
               <div className="icono-inicial" style={{ background: circleBg, color: circleColor }}>
                 {item.initial}
               </div>
@@ -92,7 +92,7 @@ export default function Slide08EcosistemaApache() {
         </div>
       </div>
 
-      <div className="apa" style={{ marginTop: '30px' }}>
+      <div className="apa" style={{ marginTop: '1.1rem' }}>
         (Joyanes Aguilar, 2016; Salazar Argonza, 2016)
       </div>
     </div>

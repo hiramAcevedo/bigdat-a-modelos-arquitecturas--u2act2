@@ -48,11 +48,32 @@ export default function Slide11DWvsDL() {
   };
 
   return (
-    <div className="slide">
+    <div className="slide slide--slide11">
       <div className="slide-titulo">Data Warehouse y Data Lake</div>
       <div className="slide-subtitulo">Dos enfoques para almacenar datos</div>
 
       <div className="slide-body">
+        <div className="slide11-tabs">
+          <button
+            onClick={() => setActiveTab('caracteristicas')}
+            className={`slide11-tab-btn ${activeTab === 'caracteristicas' ? 'active' : ''}`}
+          >
+            Características
+          </button>
+          <button
+            onClick={() => setActiveTab('ventajas')}
+            className={`slide11-tab-btn ${activeTab === 'ventajas' ? 'active' : ''}`}
+          >
+            Ventajas
+          </button>
+          <button
+            onClick={() => setActiveTab('desventajas')}
+            className={`slide11-tab-btn ${activeTab === 'desventajas' ? 'active' : ''}`}
+          >
+            Desventajas
+          </button>
+        </div>
+
         <div className="split tab-transition" key={activeTab} style={{ opacity: 1 }}>
           <div className="split-col">
             <div className="split-titulo" style={{ color: 'var(--orange)' }}>Data Warehouse</div>
@@ -83,54 +104,6 @@ export default function Slide11DWvsDL() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
-          <button
-            onClick={() => setActiveTab('caracteristicas')}
-            style={{
-              padding: '0.6rem 1.2rem',
-              backgroundColor: activeTab === 'caracteristicas' ? 'var(--cyan)' : 'var(--bg-card)',
-              color: activeTab === 'caracteristicas' ? 'var(--bg)' : 'var(--gray)',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '0.9rem'
-            }}
-          >
-            Características
-          </button>
-          <button
-            onClick={() => setActiveTab('ventajas')}
-            style={{
-              padding: '0.6rem 1.2rem',
-              backgroundColor: activeTab === 'ventajas' ? 'var(--cyan)' : 'var(--bg-card)',
-              color: activeTab === 'ventajas' ? 'var(--bg)' : 'var(--gray)',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '0.9rem'
-            }}
-          >
-            Ventajas
-          </button>
-          <button
-            onClick={() => setActiveTab('desventajas')}
-            style={{
-              padding: '0.6rem 1.2rem',
-              backgroundColor: activeTab === 'desventajas' ? 'var(--cyan)' : 'var(--bg-card)',
-              color: activeTab === 'desventajas' ? 'var(--bg)' : 'var(--gray)',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '0.9rem'
-            }}
-          >
-            Desventajas
-          </button>
         </div>
       </div>
     </div>

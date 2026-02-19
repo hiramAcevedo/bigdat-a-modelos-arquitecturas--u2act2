@@ -70,7 +70,7 @@ const Slide16Referencias = () => {
   ];
 
   return (
-    <div className="slide slide--dark-full" style={styles.container}>
+    <div className="slide slide--dark-full slide16-referencias" style={styles.container}>
       <style>{hideSlideBar}</style>
       
       <div style={styles.content}>
@@ -79,7 +79,7 @@ const Slide16Referencias = () => {
         
         <div style={styles.separator}></div>
 
-        <div style={styles.refList}>
+        <div className="slide16-ref-list" style={styles.refList}>
           {referencias.map((ref, index) => (
             <div key={ref.id} style={styles.refItem}>
               <span style={styles.refNumber}>{index + 1}.</span>
@@ -115,8 +115,8 @@ const styles = {
     background: '#2a1a0a',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: '60px 40px',
+    justifyContent: 'flex-start',
+    padding: 'clamp(0.65rem, 3.8vh, 2.2rem) clamp(0.8rem, 4vw, 2.5rem)',
     boxSizing: 'border-box',
     overflow: 'auto',
   },
@@ -125,7 +125,7 @@ const styles = {
     width: '100%',
   },
   title: {
-    fontSize: '52px',
+    fontSize: 'clamp(1.8rem, 8vw, 3.25rem)',
     fontWeight: 'bold',
     color: '#FA8112',
     margin: '0 0 12px 0',
@@ -133,7 +133,7 @@ const styles = {
     fontFamily: 'Inter, sans-serif',
   },
   subtitle: {
-    fontSize: '18px',
+    fontSize: 'clamp(0.82rem, 3vw, 1.1rem)',
     color: 'rgba(250, 129, 18, 0.7)',
     margin: '0 0 32px 0',
     textAlign: 'center',
@@ -143,12 +143,12 @@ const styles = {
   separator: {
     height: '2px',
     background: 'linear-gradient(90deg, transparent, #FA8112, transparent)',
-    margin: '32px 0',
+    margin: 'clamp(0.95rem, 3.6vw, 2rem) 0',
   },
   refList: {
-    maxHeight: 'calc(100vh - 350px)',
+    maxHeight: 'calc(100dvh - 10.5rem)',
     overflowY: 'auto',
-    paddingRight: '12px',
+    paddingRight: '8px',
   },
   refItem: {
     display: 'flex',
@@ -163,11 +163,12 @@ const styles = {
     fontFamily: 'Inter, sans-serif',
   },
   refText: {
-    fontSize: '13px',
-    lineHeight: '1.7',
+    fontSize: 'clamp(0.76rem, 2.7vw, 0.84rem)',
+    lineHeight: '1.65',
     color: '#c8b090',
     textAlign: 'justify',
     fontFamily: 'Inter, sans-serif',
+    overflowWrap: 'anywhere',
   },
   texto: {
     color: '#c8b090',
@@ -181,6 +182,7 @@ const styles = {
     textDecoration: 'none',
     cursor: 'pointer',
     transition: 'text-decoration 0.3s ease',
+    overflowWrap: 'anywhere',
   },
 };
 

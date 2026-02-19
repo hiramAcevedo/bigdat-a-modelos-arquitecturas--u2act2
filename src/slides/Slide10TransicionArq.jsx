@@ -5,11 +5,7 @@ export default function Slide10TransicionArq() {
       <div className="slide-subtitulo">De procesar a organizar</div>
       
       <div className="slide-body">
-        <div style={{
-          maxWidth: '900px',
-          margin: '0 0 2rem 0',
-          textAlign: 'left'
-        }}>
+        <div className="slide10-intro">
           <p className="p-slide">
             Hasta aquí hemos explorado cómo se procesan los datos a gran escala: modelos como MapReduce y frameworks como Hadoop y Spark. Pero procesar datos es solo una parte de la ecuación. La otra, igualmente crítica, es cómo se organizan, almacenan y gobiernan esos datos dentro de una organización.
           </p>
@@ -23,18 +19,8 @@ export default function Slide10TransicionArq() {
           </p>
         </div>
         
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '2rem',
-          marginTop: '2rem'
-        }}>
-          <div style={{
-            padding: '1.5rem',
-            backgroundColor: 'var(--bg-card)',
-            borderRadius: '8px',
-            borderLeft: '4px solid var(--orange)'
-          }}>
+        <div className="slide10-cards">
+          <div className="slide10-card" style={{ borderLeft: '4px solid var(--orange)' }}>
             <div style={{
               width: '48px',
               height: '48px',
@@ -48,16 +34,11 @@ export default function Slide10TransicionArq() {
               fontSize: '0.9rem',
               marginBottom: '1rem'
             }}>DW</div>
-            <div style={{ fontWeight: 'bold', color: 'var(--orange)', marginBottom: '0.5rem' }}>Data Warehouse</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--gray)' }}>Estructura rígida, datos limpios</div>
+            <div className="slide10-card-title" style={{ color: 'var(--orange)' }}>Data Warehouse</div>
+            <div className="slide10-card-desc">Estructura rígida, datos limpios</div>
           </div>
           
-          <div style={{
-            padding: '1.5rem',
-            backgroundColor: 'var(--bg-card)',
-            borderRadius: '8px',
-            borderLeft: '4px solid var(--cyan)'
-          }}>
+          <div className="slide10-card" style={{ borderLeft: '4px solid var(--cyan)' }}>
             <div style={{
               width: '48px',
               height: '48px',
@@ -71,16 +52,11 @@ export default function Slide10TransicionArq() {
               fontSize: '0.9rem',
               marginBottom: '1rem'
             }}>DL</div>
-            <div style={{ fontWeight: 'bold', color: 'var(--cyan)', marginBottom: '0.5rem' }}>Data Lake</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--gray)' }}>Almacén flexible, datos crudos</div>
+            <div className="slide10-card-title" style={{ color: 'var(--cyan)' }}>Data Lake</div>
+            <div className="slide10-card-desc">Almacén flexible, datos crudos</div>
           </div>
           
-          <div style={{
-            padding: '1.5rem',
-            backgroundColor: 'var(--bg-card)',
-            borderRadius: '8px',
-            borderLeft: '4px solid var(--cyan)'
-          }}>
+          <div className="slide10-card" style={{ borderLeft: '4px solid var(--cyan)' }}>
             <div style={{
               width: '48px',
               height: '48px',
@@ -95,8 +71,8 @@ export default function Slide10TransicionArq() {
               fontSize: '0.85rem',
               marginBottom: '1rem'
             }}>DLH</div>
-            <div style={{ fontWeight: 'bold', color: 'var(--cyan)', marginBottom: '0.5rem' }}>Data Lakehouse / Mesh</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--gray)' }}>Lo mejor de ambos mundos</div>
+            <div className="slide10-card-title" style={{ color: 'var(--cyan)' }}>Data Lakehouse / Mesh</div>
+            <div className="slide10-card-desc">Lo mejor de ambos mundos</div>
           </div>
         </div>
         

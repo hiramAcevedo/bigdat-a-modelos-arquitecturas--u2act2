@@ -114,7 +114,7 @@ const styles = {
     zIndex: 10,
     textAlign: 'center',
     maxWidth: '800px',
-    padding: '40px',
+    padding: 'clamp(1rem, 4.8vw, 2.5rem)',
   },
   dotsContainer: {
     display: 'flex',
@@ -130,7 +130,7 @@ const styles = {
     animation: 'pulse 1.5s infinite',
   },
   title: {
-    fontSize: '48px',
+    fontSize: 'clamp(1.65rem, 6.8vw, 3rem)',
     fontWeight: 'bold',
     color: '#FA8112',
     margin: '0 0 16px 0',
@@ -138,20 +138,21 @@ const styles = {
     fontFamily: 'Inter, sans-serif',
   },
   titleUnderline: {
-    width: '120px',
+    width: 'clamp(72px, 20vw, 120px)',
     height: '4px',
     background: '#5a3a1a',
-    margin: '0 auto 40px',
+    margin: '0 auto clamp(1rem, 4vw, 2.5rem)',
     animation: 'fadeInDown 0.8s ease-out 0.2s both',
   },
   metadata: {
-    marginBottom: '40px',
+    marginBottom: 'clamp(1rem, 4vw, 2.5rem)',
     animation: 'fadeInUp 0.8s ease-out 0.4s both',
   },
   metadataItem: {
-    margin: '12px 0',
-    fontSize: '14px',
+    margin: '10px 0',
+    fontSize: 'clamp(0.76rem, 2.7vw, 0.9rem)',
     fontFamily: 'Inter, sans-serif',
+    lineHeight: 1.45,
   },
   label: {
     color: '#5a4a3a',
@@ -163,17 +164,17 @@ const styles = {
     fontWeight: '400',
   },
   footer: {
-    marginTop: '40px',
+    marginTop: 'clamp(1rem, 4vw, 2.5rem)',
     animation: 'fadeInUp 0.8s ease-out 0.6s both',
   },
   activity: {
-    fontSize: '12px',
+    fontSize: 'clamp(0.68rem, 2.4vw, 0.8rem)',
     color: '#5a4a3a',
     margin: '8px 0',
     fontFamily: 'Inter, sans-serif',
   },
   date: {
-    fontSize: '12px',
+    fontSize: 'clamp(0.68rem, 2.4vw, 0.8rem)',
     color: '#5a4a3a',
     margin: '8px 0',
     fontFamily: 'Inter, sans-serif',

@@ -41,57 +41,150 @@ export default function App() {
   const [current,  setCurrent]  = useState(0)
   const [animKey,  setAnimKey]  = useState(0)
   const [navOpen,  setNavOpen]  = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
+  const [cameFromIndex, setCameFromIndex] = useState(null)
   const [slide5Step, setSlide5Step] = useState(0)
-  const touchStartX             = useRef(null)
-  const cameFromIndex         = useRef(null)
+  const slideAreaRef = useRef(null)
 
   const goTo = useCallback((index) => {
     if (index === current || index < 0 || index >= SLIDES.length) return
     if (index === 4) setSlide5Step(current < 4 ? 0 : 2)
-    cameFromIndex.current = current
+    setCameFromIndex(current)
     setCurrent(index)
     setAnimKey(k => k + 1)
     setNavOpen(false)
+    setHelpOpen(false)
   }, [current])
 
-  const goNext = useCallback(() => goTo(current + 1), [goTo, current])
-  const goPrev = useCallback(() => goTo(current - 1), [goTo, current])
+  const goForward = useCallback(() => {
+    if (current === 4 && slide5Step < 2) {
+      setSlide5Step(s => s + 1)
+      return
+    }
+    goTo(current + 1)
+  }, [current, slide5Step, goTo])
 
-  const slideKeyHandlers = useRef({ handleArrowRight: null, handleArrowLeft: null })
+  const goBackward = useCallback(() => {
+    if (current === 4 && slide5Step > 0) {
+      setSlide5Step(s => s - 1)
+      return
+    }
+    goTo(current - 1)
+  }, [current, slide5Step, goTo])
 
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') {
         setNavOpen(false)
+        setHelpOpen(false)
         return
       }
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        if (slideKeyHandlers.current.handleArrowRight?.()) return
-        goNext()
+        goForward()
         return
       }
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        if (slideKeyHandlers.current.handleArrowLeft?.()) return
-        goPrev()
+        goBackward()
         return
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [goNext, goPrev])
+  }, [goForward, goBackward])
 
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX
-  }
+  useEffect(() => {
+    const area = slideAreaRef.current
+    if (!area) return
 
-  const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return
-    const dx = e.changedTouches[0].clientX - touchStartX.current
-    touchStartX.current = null
-    if (Math.abs(dx) < 50) return
-    if (dx < 0) goNext()
-    else goPrev()
-  }
+    const slideEl = area.querySelector('.slide')
+    if (!slideEl) return
+
+    const FADE_THRESHOLD = 120
+    let rafId = null
+
+    const updateFade = () => {
+      rafId = null
+      const maxScroll = Math.max(0, slideEl.scrollHeight - slideEl.clientHeight)
+      if (maxScroll <= 1) {
+        slideEl.style.setProperty('--slide-fade-progress', '0')
+        return
+      }
+
+      const remaining = Math.max(0, maxScroll - slideEl.scrollTop)
+      const progress = Math.min(1, remaining / FADE_THRESHOLD)
+      slideEl.style.setProperty('--slide-fade-progress', progress.toFixed(3))
+    }
+
+    const onScroll = () => {
+      if (rafId !== null) return
+      rafId = window.requestAnimationFrame(updateFade)
+    }
+
+    updateFade()
+    slideEl.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', updateFade)
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId)
+      slideEl.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', updateFade)
+      slideEl.style.removeProperty('--slide-fade-progress')
+    }
+  }, [current, animKey, slide5Step, navOpen])
+
+  useEffect(() => {
+    const area = slideAreaRef.current
+    if (!area) return
+
+    const slideEl = area.querySelector('.slide--slide11')
+    const tabsEl = slideEl?.querySelector('.slide11-tabs')
+    if (!slideEl || !tabsEl) return
+
+    let fadeDistance = 1
+    let rafId = null
+
+    const getDistanceToSticky = () => {
+      const slideRect = slideEl.getBoundingClientRect()
+      const tabsRect = tabsEl.getBoundingClientRect()
+      const stickyTop = Number.parseFloat(window.getComputedStyle(tabsEl).top) || 0
+      const stickyAnchor = slideRect.top + stickyTop
+      return tabsRect.top - stickyAnchor
+    }
+
+    const recomputeFadeDistance = () => {
+      const distanceToSticky = getDistanceToSticky()
+      fadeDistance = Math.max(1, slideEl.scrollTop + distanceToSticky)
+    }
+
+    const updateStickyFade = () => {
+      rafId = null
+      const distanceToSticky = getDistanceToSticky()
+      const progress = Math.max(0, Math.min(1, 1 - distanceToSticky / fadeDistance))
+      tabsEl.style.setProperty('--slide11-sticky-progress', progress.toFixed(3))
+    }
+
+    const onScroll = () => {
+      if (rafId !== null) return
+      rafId = window.requestAnimationFrame(updateStickyFade)
+    }
+
+    const onResize = () => {
+      recomputeFadeDistance()
+      updateStickyFade()
+    }
+
+    recomputeFadeDistance()
+    updateStickyFade()
+    slideEl.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId)
+      slideEl.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+      tabsEl.style.removeProperty('--slide11-sticky-progress')
+    }
+  }, [current, animKey, slide5Step, navOpen])
 
   const SlideComp = SLIDES[current].component
   const progress  = ((current + 1) / SLIDES.length) * 100
@@ -101,7 +194,10 @@ export default function App() {
       {/* Botón hamburguesa */}
       <button
         className={`nav-toggle ${navOpen ? 'open' : ''}`}
-        onClick={() => setNavOpen(v => !v)}
+        onClick={() => {
+          setHelpOpen(false)
+          setNavOpen(v => !v)
+        }}
         aria-label="Menú de navegación"
       >
         <span /><span /><span />
@@ -130,16 +226,64 @@ export default function App() {
         />
       )}
 
-      {/* Área del slide con soporte táctil */}
+      {/* Overlay que cierra ayuda al hacer clic/tap fuera */}
+      {helpOpen && !navOpen && (
+        <button
+          type="button"
+          className="nav-help-backdrop"
+          onClick={() => setHelpOpen(false)}
+          aria-label="Cerrar ayuda"
+        />
+      )}
+
+      {/* Ayuda rápida de navegación */}
+      {!navOpen && (
+        <div className={`nav-help ${helpOpen ? 'open' : ''}`}>
+          <button
+            className="nav-help-toggle"
+            onClick={() => setHelpOpen(v => !v)}
+            aria-label="Abrir ayuda de navegación"
+            aria-expanded={helpOpen}
+          >
+            ?
+          </button>
+
+          {helpOpen && (
+            <div className="nav-help-card" role="dialog" aria-label="Ayuda de navegación">
+              <div className="nav-help-title">Cómo desplazarte</div>
+              <p><strong>Desktop:</strong> flechas del teclado, botones inferiores o menú lateral.</p>
+              <p><strong>Celular:</strong> toca el borde izquierdo/derecho para cambiar de slide. El scroll horizontal queda solo dentro de tablas o diagramas.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Área del slide */}
       <main
         key={animKey}
-        className={`slide-area enter${current === 13 && cameFromIndex.current === 14 ? ' slide-area--from-dark' : ''}`}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        ref={slideAreaRef}
+        className={`slide-area enter${current === 13 && cameFromIndex === 14 ? ' slide-area--from-dark' : ''}`}
       >
+        <button
+          className="edge-nav edge-nav--left"
+          onClick={goBackward}
+          disabled={current === 0 || navOpen}
+          aria-label="Diapositiva anterior"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <button
+          className="edge-nav edge-nav--right"
+          onClick={goForward}
+          disabled={current === SLIDES.length - 1 || navOpen}
+          aria-label="Siguiente diapositiva"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+
         <SlideComp
           slideIndex={current}
-          slideKeyHandlers={slideKeyHandlers}
           slide5Step={slide5Step}
           setSlide5Step={setSlide5Step}
         />
@@ -150,12 +294,12 @@ export default function App() {
 
       {/* Barra inferior */}
       <footer className="nav-footer">
-        <button className="nav-btn" onClick={goPrev} disabled={current === 0} aria-label="Anterior">&#8592;</button>
+        <button className="nav-btn" onClick={goBackward} disabled={current === 0} aria-label="Anterior">&#8592;</button>
         <div className="progress-bar-wrap">
           <div className="progress-bar" style={{ width: `${progress}%` }} />
           <span className="progress-label">{current + 1} / {SLIDES.length}</span>
         </div>
-        <button className="nav-btn" onClick={goNext} disabled={current === SLIDES.length - 1} aria-label="Siguiente">&#8594;</button>
+        <button className="nav-btn" onClick={goForward} disabled={current === SLIDES.length - 1} aria-label="Siguiente">&#8594;</button>
       </footer>
     </div>
   )
