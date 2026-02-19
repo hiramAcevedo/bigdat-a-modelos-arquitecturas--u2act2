@@ -41,10 +41,14 @@ export default function App() {
   const [current,  setCurrent]  = useState(0)
   const [animKey,  setAnimKey]  = useState(0)
   const [navOpen,  setNavOpen]  = useState(false)
+  const [slide5Step, setSlide5Step] = useState(0)
   const touchStartX             = useRef(null)
+  const cameFromIndex         = useRef(null)
 
   const goTo = useCallback((index) => {
     if (index === current || index < 0 || index >= SLIDES.length) return
+    if (index === 4) setSlide5Step(current < 4 ? 0 : 2)
+    cameFromIndex.current = current
     setCurrent(index)
     setAnimKey(k => k + 1)
     setNavOpen(false)
@@ -53,11 +57,24 @@ export default function App() {
   const goNext = useCallback(() => goTo(current + 1), [goTo, current])
   const goPrev = useCallback(() => goTo(current - 1), [goTo, current])
 
+  const slideKeyHandlers = useRef({ handleArrowRight: null, handleArrowLeft: null })
+
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  goNext()
-      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    goPrev()
-      if (e.key === 'Escape')                                setNavOpen(false)
+      if (e.key === 'Escape') {
+        setNavOpen(false)
+        return
+      }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (slideKeyHandlers.current.handleArrowRight?.()) return
+        goNext()
+        return
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (slideKeyHandlers.current.handleArrowLeft?.()) return
+        goPrev()
+        return
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -116,11 +133,16 @@ export default function App() {
       {/* Área del slide con soporte táctil */}
       <main
         key={animKey}
-        className="slide-area enter"
+        className={`slide-area enter${current === 13 && cameFromIndex.current === 14 ? ' slide-area--from-dark' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <SlideComp />
+        <SlideComp
+          slideIndex={current}
+          slideKeyHandlers={slideKeyHandlers}
+          slide5Step={slide5Step}
+          setSlide5Step={setSlide5Step}
+        />
       </main>
 
       {/* Reproductor de música */}

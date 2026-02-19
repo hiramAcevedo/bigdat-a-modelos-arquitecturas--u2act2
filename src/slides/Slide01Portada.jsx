@@ -13,6 +13,10 @@ const Slide01Portada = () => {
         <rect width="1200" height="800" fill="url(#grid)" />
       </svg>
 
+      {/* Cuadrícula + overlay progresivo (5% cuadros en centro, ~75% en bordes, sin corte) */}
+      <div className="portada-texture" aria-hidden="true" />
+      <div className="portada-gradient" aria-hidden="true" />
+
       <div style={styles.content}>
         <div style={styles.dotsContainer}>
           <div style={{ ...styles.dot, animationDelay: '0s' }}></div>

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+/* Paso 0 = solo Entrada, 1 = Entrada+Map, 2 = Entrada+Map+Reduce (acumulativo, nada se quita) */
+const MAX_STEP = 2;
 
 const baseCard = { borderRadius: '6px', marginBottom: '6px', fontSize: '0.82rem' };
 const CARD_ENTRADA = {
@@ -23,8 +26,36 @@ const CARD_REDUCE = {
   border:       '1px solid rgba(138,74,26,0.4)',
 };
 
-export default function Slide05MapReduceEjemplo() {
-  const [activePhase, setActivePhase] = useState('all');
+export default function Slide05MapReduceEjemplo({ slideIndex, slideKeyHandlers, slide5Step, setSlide5Step }) {
+  const step = slide5Step ?? 0;
+  const setStep = setSlide5Step ?? (() => {});
+  const stepRef = useRef(step);
+  stepRef.current = step;
+
+  useEffect(() => {
+    if (slideKeyHandlers && setSlide5Step && slideIndex === 4) {
+      slideKeyHandlers.current.handleArrowRight = () => {
+        const s = stepRef.current;
+        if (s >= MAX_STEP) return false;
+        setSlide5Step(s + 1);
+        return true;
+      };
+      slideKeyHandlers.current.handleArrowLeft = () => {
+        const s = stepRef.current;
+        if (s <= 0) return false;
+        setSlide5Step(s - 1);
+        return true;
+      };
+    }
+    return () => {
+      if (slideKeyHandlers?.current) {
+        slideKeyHandlers.current.handleArrowRight = null;
+        slideKeyHandlers.current.handleArrowLeft = null;
+      }
+    };
+  }, [slideIndex, slideKeyHandlers, setSlide5Step]);
+
+  const goToStep = (n) => (setSlide5Step ?? (() => {}))(Math.max(0, Math.min(n, MAX_STEP)));
 
   const inputData = [
     { file: 1, data: ['Toronto, 18 °C', 'Londres, 15 °C', 'Tokio, 25 °C'] },
@@ -78,32 +109,31 @@ export default function Slide05MapReduceEjemplo() {
       <h2 className="slide-titulo">MapReduce en acción</h2>
       <p className="slide-subtitulo">Ejemplo práctico: temperatura máxima por ciudad</p>
 
-      {/* Botones de fase */}
+      {/* Botones: Entrada, Map, Reduce (pasos acumulativos; flechas también avanzan/retroceden) */}
       <div style={{ marginBottom: '0.6rem' }}>
         {[
-          { id: 'all',     label: 'Todas las fases' },
-          { id: 'entrada', label: 'Entrada'         },
-          { id: 'map',     label: 'Map'             },
-          { id: 'reduce',  label: 'Reduce'          },
-        ].map(({ id, label }) => (
+          { step: 0, label: 'Entrada' },
+          { step: 1, label: 'Map'     },
+          { step: 2, label: 'Reduce'  },
+        ].map(({ step: s, label }) => (
           <button
-            key={id}
-            style={activePhase === id ? BTN_ACTIVE : BTN_BASE}
-            onClick={() => setActivePhase(id)}
+            key={s}
+            style={step === s ? BTN_ACTIVE : BTN_BASE}
+            onClick={() => goToStep(s)}
           >
             {label}
           </button>
         ))}
       </div>
 
-      {/* Fases — transición suave por opacidad */}
+      {/* Fases acumulativas: Entrada se queda, se agrega Map, luego Reduce */}
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-        {/* ENTRADA */}
+        {/* ENTRADA — siempre visible desde paso 0 */}
         <div style={{
           flex: 1,
-          opacity: (activePhase === 'all' || activePhase === 'entrada') ? 1 : 0,
+          opacity: step >= 0 ? 1 : 0,
           transition: 'opacity 0.35s ease',
-          pointerEvents: (activePhase === 'all' || activePhase === 'entrada') ? 'auto' : 'none',
+          pointerEvents: step >= 0 ? 'auto' : 'none',
         }}>
           <h4 style={{ color: '#2d7a4f', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Entrada
@@ -122,12 +152,12 @@ export default function Slide05MapReduceEjemplo() {
           ))}
         </div>
 
-        {/* MAP */}
+        {/* MAP — visible desde paso 1 */}
         <div style={{
           flex: 1,
-          opacity: (activePhase === 'all' || activePhase === 'map') ? 1 : 0,
+          opacity: step >= 1 ? 1 : 0,
           transition: 'opacity 0.35s ease',
-          pointerEvents: (activePhase === 'all' || activePhase === 'map') ? 'auto' : 'none',
+          pointerEvents: step >= 1 ? 'auto' : 'none',
         }}>
             <h4 style={{ color: '#FA8112', marginBottom: '10px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Map
@@ -162,12 +192,12 @@ export default function Slide05MapReduceEjemplo() {
             ))}
         </div>
 
-        {/* REDUCE */}
+        {/* REDUCE — visible desde paso 2 */}
         <div style={{
           flex: 1,
-          opacity: (activePhase === 'all' || activePhase === 'reduce') ? 1 : 0,
+          opacity: step >= 2 ? 1 : 0,
           transition: 'opacity 0.35s ease',
-          pointerEvents: (activePhase === 'all' || activePhase === 'reduce') ? 'auto' : 'none',
+          pointerEvents: step >= 2 ? 'auto' : 'none',
         }}>
           <h4 style={{ color: '#8a4a1a', marginBottom: '8px', textAlign: 'center', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Reduce

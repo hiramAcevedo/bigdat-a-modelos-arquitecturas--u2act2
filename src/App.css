@@ -125,19 +125,70 @@
   justify-content: center;
   background: var(--bg);
 }
-/* Fondo con textura visible para el espacio vacío (arriba/abajo) */
+/* Cuadrícula de fondo: más visible en bordes (~75%), se verá ~5% en zona de contenido por el overlay progresivo del .slide */
 .slide-area::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(250,129,18,0.08) 0%, transparent 20%, transparent 80%, rgba(250,129,18,0.08) 100%),
-    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(250,129,18,0.08) 39px, rgba(250,129,18,0.08) 40px),
-    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(250,129,18,0.08) 39px, rgba(250,129,18,0.08) 40px);
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(250,129,18,0.12) 39px, rgba(250,129,18,0.12) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(250,129,18,0.12) 39px, rgba(250,129,18,0.12) 40px);
   pointer-events: none;
   z-index: 0;
 }
+/* Slides 15 y 16: fondo café en todo el área para que el barrido no muestre blanco */
+.slide-area:has(.slide--dark-full) {
+  background: #2a1a0a;
+}
+.slide-area:has(.slide--dark-full)::before {
+  display: none;
+}
+/* Slides 15 y 16: barrido de derecha a izquierda (cara ancha) */
+@keyframes slideWipeIn {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.slide-area.enter:has(.slide--dark-full) {
+  animation: none;
+}
+.slide-area.enter:has(.slide--dark-full) .slide--dark-full {
+  animation: slideWipeIn 0.45s ease both;
+}
+/* Volver de 15 a 14: barrido al revés (izquierda a derecha) */
+@keyframes slideWipeFromLeft {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.slide-area.enter.slide-area--from-dark {
+  animation: none;
+}
+.slide-area.enter.slide-area--from-dark > .slide {
+  animation: slideWipeFromLeft 0.45s ease both;
+}
 .slide-area > * { position: relative; z-index: 1; }
+
+/* Portada: cuadrícula + overlay progresivo (igual que el resto, sin corte) */
+.portada-texture {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(250,129,18,0.12) 39px, rgba(250,129,18,0.12) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(250,129,18,0.12) 39px, rgba(250,129,18,0.12) 40px);
+  pointer-events: none;
+  z-index: 1;
+}
+.portada-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 85% 85% at 50% 50%,
+    rgba(250,243,225,0.95) 0%,
+    rgba(250,243,225,0.55) 45%,
+    rgba(250,243,225,0.25) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
 
 @keyframes slideInNext {
   from { opacity: 0; transform: translateX(40px); }
@@ -213,6 +264,7 @@
 /* ===================================================
    ESTILOS GLOBALES DE SLIDE
    =================================================== */
+/* Fondo progresivo: centro ~95% color (cuadros 5% visibles), bordes ~25% color (cuadros ~75% visibles), sin corte brusco */
 .slide {
   width: 100%;
   max-width: 1200px;
@@ -226,7 +278,12 @@
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--bg);
+  background: radial-gradient(
+    ellipse 85% 85% at 50% 50%,
+    rgba(250,243,225,0.95) 0%,
+    rgba(250,243,225,0.55) 45%,
+    rgba(250,243,225,0.25) 100%
+  );
   box-sizing: border-box;
 }
 .slide > * {
