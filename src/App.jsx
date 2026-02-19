@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Slide01Portada               from './slides/Slide01Portada'
 import Slide02Intro                 from './slides/Slide02Intro'
 import Slide03TradicionalVsBig      from './slides/Slide03TradicionalVsBig'
@@ -15,6 +15,7 @@ import Slide13ModelosAlmacen        from './slides/Slide13ModelosAlmacen'
 import Slide14LambdaKappa           from './slides/Slide14LambdaKappa'
 import Slide15Conclusion            from './slides/Slide15Conclusion'
 import Slide16Referencias           from './slides/Slide16Referencias'
+import MusicPlayer                  from './MusicPlayer'
 import './App.css'
 
 const SLIDES = [
@@ -40,6 +41,7 @@ export default function App() {
   const [current,  setCurrent]  = useState(0)
   const [animKey,  setAnimKey]  = useState(0)
   const [navOpen,  setNavOpen]  = useState(false)
+  const touchStartX             = useRef(null)
 
   const goTo = useCallback((index) => {
     if (index === current || index < 0 || index >= SLIDES.length) return
@@ -60,6 +62,19 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [goNext, goPrev])
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    touchStartX.current = null
+    if (Math.abs(dx) < 50) return
+    if (dx < 0) goNext()
+    else goPrev()
+  }
 
   const SlideComp = SLIDES[current].component
   const progress  = ((current + 1) / SLIDES.length) * 100
@@ -98,10 +113,18 @@ export default function App() {
         />
       )}
 
-      {/* Área del slide */}
-      <main key={animKey} className="slide-area enter">
+      {/* Área del slide con soporte táctil */}
+      <main
+        key={animKey}
+        className="slide-area enter"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <SlideComp />
       </main>
+
+      {/* Reproductor de música */}
+      <MusicPlayer />
 
       {/* Barra inferior */}
       <footer className="nav-footer">

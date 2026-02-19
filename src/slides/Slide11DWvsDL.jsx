@@ -53,7 +53,7 @@ export default function Slide11DWvsDL() {
       <div className="slide-subtitulo">Dos enfoques para almacenar datos</div>
 
       <div className="slide-body">
-        <div className="split">
+        <div className="split tab-transition" key={activeTab} style={{ opacity: 1 }}>
           <div className="split-col">
             <div className="split-titulo" style={{ color: 'var(--orange)' }}>Data Warehouse</div>
             <p style={{ fontSize: '0.9rem', color: 'var(--gray)', marginBottom: '1.5rem' }}>

@@ -1,30 +1,30 @@
 import React from 'react';
 
 export default function Slide08EcosistemaApache() {
+  /* Fondo oscuro en círculos para buen contraste (accesibilidad) */
+  const circleBg = '#5a3a1a';
+  const circleColor = '#FAF3E1';
+
   const leftItems = [
     {
       initial: 'H',
       name: 'Hive',
       desc: 'Lenguaje de consulta tipo SQL (HiveQL) para datos almacenados en HDFS. Permite a analistas sin experiencia en Java hacer consultas sobre grandes datasets sin escribir código MapReduce.',
-      color: '#00d4ff',
     },
     {
       initial: 'P',
       name: 'Pig',
       desc: 'Plataforma de alto nivel con lenguaje propio (Pig Latin) para manipulación de datos. Traduce scripts a trabajos MapReduce automáticamente, simplificando transformaciones complejas.',
-      color: '#ff6b35',
     },
     {
       initial: 'B',
       name: 'HBase',
       desc: 'Base de datos NoSQL distribuida que se ejecuta sobre HDFS. Ofrece acceso aleatorio en tiempo real a grandes tablas dispersas, similar a Google Bigtable, para lecturas y escrituras de baja latencia.',
-      color: '#00d4ff',
     },
     {
       initial: 'F',
       name: 'Flume',
       desc: 'Servicio de alta confiabilidad para recopilar, agregar y mover grandes volúmenes de datos de log en streaming hacia HDFS u otros destinos.',
-      color: '#ff6b35',
     },
   ];
 
@@ -33,25 +33,21 @@ export default function Slide08EcosistemaApache() {
       initial: 'S',
       name: 'Sqoop',
       desc: 'Conector para transferir datos eficientemente entre Hadoop y bases de datos relacionales (MySQL, Oracle, PostgreSQL). Permite importar tablas completas o incrementales.',
-      color: '#00d4ff',
     },
     {
       initial: 'Z',
       name: 'ZooKeeper',
       desc: 'Servicio de coordinación centralizado para procesos distribuidos. Gestiona configuración, sincronización entre nodos y elección de líder en el cluster.',
-      color: '#ff6b35',
     },
     {
       initial: 'O',
       name: 'Oozie',
       desc: 'Organizador y programador de flujos de trabajo para trabajos Hadoop. Permite definir dependencias entre trabajos MapReduce, Pig, Hive y Sqoop como un grafo acíclico dirigido.',
-      color: '#00d4ff',
     },
     {
       initial: 'A',
       name: 'Ambari',
       desc: 'Interfaz web de código abierto para provisionar, gestionar y monitorear clusters Hadoop. Simplifica la instalación y configuración del ecosistema completo.',
-      color: '#ff6b35',
     },
   ];
 
@@ -69,7 +65,7 @@ export default function Slide08EcosistemaApache() {
         <div>
           {leftItems.map((item, idx) => (
             <div key={idx} style={{ marginBottom: '20px', display: 'flex', gap: '15px' }}>
-              <div className="icono-inicial" style={{ background: item.color }}>
+              <div className="icono-inicial" style={{ background: circleBg, color: circleColor }}>
                 {item.initial}
               </div>
               <div>
@@ -84,7 +80,7 @@ export default function Slide08EcosistemaApache() {
         <div>
           {rightItems.map((item, idx) => (
             <div key={idx} style={{ marginBottom: '20px', display: 'flex', gap: '15px' }}>
-              <div className="icono-inicial" style={{ background: item.color }}>
+              <div className="icono-inicial" style={{ background: circleBg, color: circleColor }}>
                 {item.initial}
               </div>
               <div>

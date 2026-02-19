@@ -5,20 +5,21 @@
 }
 
 :root {
-  --bg:       #0a1628;
-  --bg-card:  #0f2040;
-  --bg-light: #132a52;
-  --cyan:     #00d4ff;
-  --cyan-dim: #0099bb;
-  --orange:   #ff6b35;
-  --orange-dim: #cc5528;
-  --white:    #f0f6ff;
-  --gray:     #8ba4c8;
-  --gray-dim: #4a6380;
+  --bg:         #FAF3E1;
+  --bg-card:    #F5E7C6;
+  --bg-light:   #EDD9A3;
+  --cyan:       #FA8112;
+  --cyan-dim:   #c96d0e;
+  --orange:     #5a3a1a;
+  --orange-dim: #8a6a4a;
+  --white:      #222222;
+  --gray:       #5a4a3a;
+  --gray-dim:   #9a8a7a;
+  --nav-dark:   #2a1a0a;
 
   font-family: 'Calibri', 'Trebuchet MS', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   color: var(--white);
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -50,13 +51,8 @@ h1, h2, h3, h4 {
   line-height: 1.2;
 }
 
-/* Scrollbar personalizado para contenido de slides */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: var(--cyan-dim);
   border-radius: 2px;

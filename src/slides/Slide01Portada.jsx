@@ -1,171 +1,179 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function Slide01Portada() {
-  const [dots, setDots] = useState([]);
-
-  useEffect(() => {
-    // Generate random animated dots for background
-    const newDots = Array.from({ length: 12 }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 0.5,
-      duration: 2 + Math.random() * 1,
-    }));
-    setDots(newDots);
-  }, []);
-
+const Slide01Portada = () => {
   return (
-    <div
-      className="slide"
-      style={{
-        background: '#0a1628',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      {/* Background circuit pattern SVG */}
-      <svg
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.1,
-        }}
-        viewBox="0 0 1000 1000"
-      >
+    <div className="slide slide--full" style={styles.container}>
+      <style>{keyframes}</style>
+      <svg style={styles.gridPattern} preserveAspectRatio="none" viewBox="0 0 1200 800">
         <defs>
-          <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#00d4ff" strokeWidth="1" />
-            <circle cx="0" cy="0" r="3" fill="#ff6b35" />
-            <circle cx="100" cy="100" r="3" fill="#ff6b35" />
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FA8112" strokeWidth="1" opacity="0.06" />
           </pattern>
         </defs>
-        <rect width="1000" height="1000" fill="url(#grid)" />
-        <line x1="100" y1="0" x2="100" y2="1000" stroke="#00d4ff" strokeWidth="2" opacity="0.3" />
-        <line x1="900" y1="0" x2="900" y2="1000" stroke="#00d4ff" strokeWidth="2" opacity="0.3" />
+        <rect width="1200" height="800" fill="url(#grid)" />
       </svg>
 
-      {/* Animated dots */}
-      {dots.map((dot) => (
-        <div
-          key={dot.id}
-          style={{
-            position: 'absolute',
-            left: `${dot.left}%`,
-            top: `${dot.top}%`,
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: '#00d4ff',
-            boxShadow: '0 0 10px #00d4ff',
-            animation: `pulse ${dot.duration}s infinite`,
-            animationDelay: `${dot.delay}s`,
-          }}
-        />
-      ))}
+      <div style={styles.content}>
+        <div style={styles.dotsContainer}>
+          <div style={{ ...styles.dot, animationDelay: '0s' }}></div>
+          <div style={{ ...styles.dot, animationDelay: '0.2s' }}></div>
+          <div style={{ ...styles.dot, animationDelay: '0.4s' }}></div>
+        </div>
 
-      {/* Main content */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          textAlign: 'center',
-          color: '#fff',
-          maxWidth: '900px',
-          padding: '40px',
-        }}
-      >
-        <style>{`
-          @keyframes slideInDown {
-            from {
-              opacity: 0;
-              transform: translateY(-40px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          @keyframes slideInUp {
-            from {
-              opacity: 0;
-              transform: translateY(40px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-          }
-          .portada-title {
-            animation: slideInDown 1s ease-out forwards;
-          }
-          .portada-subtitle {
-            animation: slideInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-          }
-          .portada-meta {
-            animation: slideInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
-          }
-        `}</style>
+        <h1 style={styles.title}>Modelos y arquitecturas para Big Data</h1>
+        <div style={styles.titleUnderline}></div>
 
-        <h1
-          className="portada-title"
-          style={{
-            fontSize: '3.5rem',
-            fontWeight: '700',
-            marginBottom: '30px',
-            color: '#00d4ff',
-            lineHeight: '1.2',
-          }}
-        >
-          Modelos y arquitecturas para Big Data
-        </h1>
-
-        <div
-          style={{
-            height: '4px',
-            width: '300px',
-            background: '#ff6b35',
-            margin: '30px auto',
-          }}
-        />
-
-        <div className="portada-subtitle" style={{ marginBottom: '50px' }}>
-          <p style={{ fontSize: '1.3rem', margin: '10px 0', color: '#fff' }}>
-            <strong>Hiram Agustín Acevedo López</strong>
+        <div style={styles.metadata}>
+          <p style={styles.metadataItem}>
+            <span style={styles.label}>Presentado por:</span>
+            <span style={styles.value}>Hiram Agustín Acevedo López</span>
           </p>
-          <p style={{ fontSize: '1rem', color: '#b0b0b0', margin: '5px 0' }}>
-            Licenciatura en Desarrollo de Sistemas Web
+          <p style={styles.metadataItem}>
+            <span style={styles.label}>Programa:</span>
+            <span style={styles.value}>Licenciatura en Desarrollo de Sistemas Web</span>
+          </p>
+          <p style={styles.metadataItem}>
+            <span style={styles.label}>Asignatura:</span>
+            <span style={styles.value}>Uso de Big Data para Toma de Decisiones</span>
+          </p>
+          <p style={styles.metadataItem}>
+            <span style={styles.label}>Asesor:</span>
+            <span style={styles.value}>RIGOBERTO CARDENAS LARIOS</span>
           </p>
         </div>
 
-        <div className="portada-meta" style={{ borderTop: '1px solid #00d4ff', paddingTop: '30px' }}>
-          <p style={{ fontSize: '0.95rem', color: '#a0a0a0', margin: '8px 0' }}>
-            <strong>Asignatura:</strong> Uso de Big Data para Toma de Decisiones
-          </p>
-          <p style={{ fontSize: '0.95rem', color: '#a0a0a0', margin: '8px 0' }}>
-            <strong>Asesor:</strong> RIGOBERTO CARDENAS LARIOS
-          </p>
-          <p style={{ fontSize: '0.95rem', color: '#a0a0a0', margin: '8px 0' }}>
-            <strong>Actividad:</strong> Unidad 2 - Actividad 2
-          </p>
-          <p style={{ fontSize: '0.95rem', color: '#00d4ff', margin: '8px 0', marginTop: '15px' }}>
-            18 de febrero de 2026
-          </p>
+        <div style={styles.footer}>
+          <p style={styles.activity}>Unidad 2 · Actividad 2</p>
+          <p style={styles.date}>18 de febrero de 2026</p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+const keyframes = `
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0;
+      box-shadow: 0 0 0 0 rgba(250, 129, 18, 0.7);
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 0 10px rgba(250, 129, 18, 0);
+    }
+  }
+`;
+
+const styles = {
+  container: {
+    width: '100%',
+    height: '100%',
+    background: '#FAF3E1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  gridPattern: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 1,
+  },
+  content: {
+    position: 'relative',
+    zIndex: 10,
+    textAlign: 'center',
+    maxWidth: '800px',
+    padding: '40px',
+  },
+  dotsContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '12px',
+    marginBottom: '40px',
+  },
+  dot: {
+    width: '12px',
+    height: '12px',
+    borderRadius: '50%',
+    background: '#FA8112',
+    animation: 'pulse 1.5s infinite',
+  },
+  title: {
+    fontSize: '48px',
+    fontWeight: 'bold',
+    color: '#FA8112',
+    margin: '0 0 16px 0',
+    animation: 'fadeInDown 0.8s ease-out',
+    fontFamily: 'Inter, sans-serif',
+  },
+  titleUnderline: {
+    width: '120px',
+    height: '4px',
+    background: '#5a3a1a',
+    margin: '0 auto 40px',
+    animation: 'fadeInDown 0.8s ease-out 0.2s both',
+  },
+  metadata: {
+    marginBottom: '40px',
+    animation: 'fadeInUp 0.8s ease-out 0.4s both',
+  },
+  metadataItem: {
+    margin: '12px 0',
+    fontSize: '14px',
+    fontFamily: 'Inter, sans-serif',
+  },
+  label: {
+    color: '#5a4a3a',
+    fontWeight: '600',
+    marginRight: '8px',
+  },
+  value: {
+    color: '#5a4a3a',
+    fontWeight: '400',
+  },
+  footer: {
+    marginTop: '40px',
+    animation: 'fadeInUp 0.8s ease-out 0.6s both',
+  },
+  activity: {
+    fontSize: '12px',
+    color: '#5a4a3a',
+    margin: '8px 0',
+    fontFamily: 'Inter, sans-serif',
+  },
+  date: {
+    fontSize: '12px',
+    color: '#5a4a3a',
+    margin: '8px 0',
+    fontFamily: 'Inter, sans-serif',
+  },
+};
+
+export default Slide01Portada;

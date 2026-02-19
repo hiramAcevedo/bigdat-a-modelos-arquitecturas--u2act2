@@ -27,7 +27,7 @@ export default function Slide12LakehouseMeshFabric() {
     {
       id: 'fabric',
       icon: 'DF',
-      iconBg: 'rgba(0, 212, 255, 0.3)',
+      iconBg: 'rgba(250, 129, 18, 0.15)',
       iconColor: 'var(--cyan)',
       iconBorder: '2px solid var(--cyan)',
       titulo: 'Data Fabric',
@@ -58,16 +58,16 @@ export default function Slide12LakehouseMeshFabric() {
                 borderRadius: '8px',
                 padding: '1.5rem',
                 cursor: 'pointer',
-                border: '1px solid rgba(0, 212, 255, 0.2)',
-                transition: 'all 0.3s ease',
-                minHeight: expandedCard === card.id ? 'auto' : '380px',
+                border: '1px solid rgba(250, 129, 18, 0.2)',
+                transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+                minHeight: '420px',
                 display: 'flex',
                 flexDirection: 'column'
               }}
             >
               {expandedCard === card.id ? (
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexShrink: 0 }}>
                     <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--white)' }}>{card.titulo}</div>
                     <button
                       onClick={(e) => {
@@ -86,11 +86,11 @@ export default function Slide12LakehouseMeshFabric() {
                     </button>
                   </div>
                   
-                  <div style={{ fontSize: '0.9rem', color: 'var(--white)', lineHeight: '1.6', marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '0.9rem', color: 'var(--white)', lineHeight: '1.6', marginBottom: '1rem', flex: 1, overflowY: 'auto' }}>
                     {card.expandedDetail}
                   </div>
                   
-                  <div style={{ fontSize: '0.85rem', color: 'var(--orange)', marginTop: 'auto', fontWeight: '500' }}>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--orange)', marginTop: 'auto', fontWeight: '500', flexShrink: 0 }}>
                     Resuelve: {card.resuelve}
                   </div>
                 </div>

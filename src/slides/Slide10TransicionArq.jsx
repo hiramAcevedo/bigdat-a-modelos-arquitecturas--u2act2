@@ -7,9 +7,8 @@ export default function Slide10TransicionArq() {
       <div className="slide-body">
         <div style={{
           maxWidth: '900px',
-          margin: '0 auto',
-          textAlign: 'center',
-          marginBottom: '2rem'
+          margin: '0 0 2rem 0',
+          textAlign: 'left'
         }}>
           <p className="p-slide">
             Hasta aquí hemos explorado cómo se procesan los datos a gran escala: modelos como MapReduce y frameworks como Hadoop y Spark. Pero procesar datos es solo una parte de la ecuación. La otra, igualmente crítica, es cómo se organizan, almacenan y gobiernan esos datos dentro de una organización.
@@ -40,11 +39,11 @@ export default function Slide10TransicionArq() {
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              backgroundColor: 'var(--orange)',
+              backgroundColor: '#5a3a1a',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'var(--bg)',
+              color: '#FAF3E1',
               fontWeight: 'bold',
               fontSize: '0.9rem',
               marginBottom: '1rem'
@@ -63,11 +62,11 @@ export default function Slide10TransicionArq() {
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              backgroundColor: 'var(--cyan)',
+              backgroundColor: '#5a3a1a',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'var(--bg)',
+              color: '#FAF3E1',
               fontWeight: 'bold',
               fontSize: '0.9rem',
               marginBottom: '1rem'
@@ -86,12 +85,12 @@ export default function Slide10TransicionArq() {
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(0, 212, 255, 0.3)',
+              backgroundColor: '#5a3a1a',
               border: '2px solid var(--cyan)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'var(--cyan)',
+              color: '#FAF3E1',
               fontWeight: 'bold',
               fontSize: '0.85rem',
               marginBottom: '1rem'

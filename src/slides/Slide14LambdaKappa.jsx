@@ -24,23 +24,23 @@ export default function Slide14LambdaKappa() {
               <div style={{ textAlign: 'center', color: 'var(--cyan)', marginBottom: '0.5rem', fontSize: '0.7rem' }}>↓</div>
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem', marginBottom: '0.5rem' }}>
-                <div style={{ padding: '0.5rem', backgroundColor: 'rgba(0, 212, 255, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
+                <div style={{ padding: '0.5rem', backgroundColor: 'rgba(250, 129, 18, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
                   <div style={{ fontWeight: 'bold', color: 'var(--cyan)' }}>Capa Batch</div>
                 </div>
-                <div style={{ padding: '0.5rem', backgroundColor: 'rgba(0, 212, 255, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
+                <div style={{ padding: '0.5rem', backgroundColor: 'rgba(250, 129, 18, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
                   <div style={{ fontWeight: 'bold', color: 'var(--cyan)' }}>Capa Speed</div>
                 </div>
               </div>
               
               <div style={{ textAlign: 'center', color: 'var(--cyan)', marginBottom: '0.5rem', fontSize: '0.7rem' }}>↓</div>
               
-              <div style={{ padding: '0.5rem', backgroundColor: 'rgba(0, 212, 255, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
+              <div style={{ padding: '0.5rem', backgroundColor: 'rgba(250, 129, 18, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
                 <div style={{ fontWeight: 'bold', color: 'var(--cyan)' }}>Capa de Servicio</div>
               </div>
               
               <div style={{ textAlign: 'center', color: 'var(--cyan)', marginBottom: '0.5rem', fontSize: '0.7rem' }}>↓</div>
               
-              <div style={{ padding: '0.5rem', backgroundColor: 'rgba(0, 212, 255, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
+              <div style={{ padding: '0.5rem', backgroundColor: 'rgba(250, 129, 18, 0.1)', borderLeft: '3px solid var(--cyan)' }}>
                 <div style={{ fontWeight: 'bold', color: 'var(--cyan)' }}>Consultas</div>
               </div>
             </div>

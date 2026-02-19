@@ -1,204 +1,74 @@
 import React, { useState } from 'react';
 
+const DOT_TRAD = '#8a4a1a';
+const DOT_DIST = '#FA8112';
+
 export default function Slide03TradicionalVsBig() {
   const [hoveredCol, setHoveredCol] = useState(null);
+
+  const renderBullets = (items, color) =>
+    items.map((text, i) => (
+      <li key={i} style={{ margin: '11px 0', paddingLeft: '20px', position: 'relative', color: '#5a4a3a', fontSize: '0.9rem', lineHeight: '1.5' }}>
+        <span style={{ position: 'absolute', left: 0, top: '6px', width: '8px', height: '8px', borderRadius: '50%', background: color }} />
+        {text}
+      </li>
+    ));
+
+  const tradItems = [
+    'Un servidor potente concentra toda la carga.',
+    'Escalamiento vertical: más RAM o más CPU al mismo equipo.',
+    'Costo elevado en hardware especializado.',
+    'Límite físico de capacidad: cuando el servidor se llena, no hay más.',
+    'Respuesta lenta ante volúmenes masivos.',
+  ];
+
+  const distItems = [
+    'El trabajo se reparte entre cientos de máquinas comunes.',
+    'Escalamiento horizontal: agregar nodos al clúster sin límite práctico.',
+    'Hardware comercial de bajo costo (commodity hardware).',
+    'Tolerancia a fallos integrada: si un nodo falla, los datos siguen disponibles.',
+    'Procesamiento en paralelo para volúmenes de terabytes a petabytes.',
+  ];
 
   return (
     <div className="slide">
       <h2 className="slide-titulo">El quiebre tecnológico</h2>
       <p className="slide-subtitulo">De lo vertical a lo horizontal</p>
 
-      <style>{`
-        .split-tradicional:hover {
-          border-left-color: #ff8855 !important;
-          box-shadow: inset 4px 0 0 #ff6b35;
-        }
-        .split-distribuido:hover {
-          border-left-color: #00e5ff !important;
-          box-shadow: inset 4px 0 0 #00d4ff;
-        }
-      `}</style>
-
       <div className="split">
-        {/* Left column - Traditional */}
         <div
-          className="split-col split-tradicional"
+          className="split-col"
           style={{
-            borderLeft: '4px solid #ff6b35',
-            paddingLeft: '30px',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
+            borderLeft: `4px solid ${hoveredCol === 'trad' ? '#5a3a1a' : DOT_TRAD}`,
+            paddingLeft: '28px', cursor: 'pointer', transition: 'border-color 0.25s, box-shadow 0.25s',
+            boxShadow: hoveredCol === 'trad' ? `inset 4px 0 0 ${DOT_TRAD}` : 'none',
           }}
           onMouseEnter={() => setHoveredCol('trad')}
           onMouseLeave={() => setHoveredCol(null)}
         >
-          <h3 className="split-titulo">Procesamiento tradicional</h3>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#ff6b35',
-                }}
-              />
-              Un servidor potente concentra toda la carga.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#ff6b35',
-                }}
-              />
-              Escalamiento vertical: más RAM o más CPU al mismo equipo.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#ff6b35',
-                }}
-              />
-              Costo elevado en hardware especializado.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#ff6b35',
-                }}
-              />
-              Límite físico de capacidad: cuando el servidor se llena, no hay más.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#ff6b35',
-                }}
-              />
-              Respuesta lenta ante volúmenes masivos.
-            </li>
-          </ul>
+          <h3 className="split-titulo" style={{ color: DOT_TRAD }}>Procesamiento tradicional</h3>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{renderBullets(tradItems, DOT_TRAD)}</ul>
         </div>
 
-        {/* Right column - Distributed */}
         <div
-          className="split-col split-distribuido"
+          className="split-col"
           style={{
-            borderLeft: '4px solid #00d4ff',
-            paddingLeft: '30px',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
+            borderLeft: `4px solid ${hoveredCol === 'dist' ? '#c96d0e' : DOT_DIST}`,
+            paddingLeft: '28px', cursor: 'pointer', transition: 'border-color 0.25s, box-shadow 0.25s',
+            boxShadow: hoveredCol === 'dist' ? `inset 4px 0 0 ${DOT_DIST}` : 'none',
           }}
           onMouseEnter={() => setHoveredCol('dist')}
           onMouseLeave={() => setHoveredCol(null)}
         >
-          <h3 className="split-titulo">Procesamiento distribuido (Big Data)</h3>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-              />
-              El trabajo se reparte entre cientos de máquinas comunes.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-              />
-              Escalamiento horizontal: agregar nodos al cluster sin límite práctico.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-              />
-              Hardware comercial de bajo costo (commodity hardware).
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-              />
-              Tolerancia a fallos integrada: si un nodo falla, los datos siguen disponibles.
-            </li>
-            <li style={{ margin: '12px 0', paddingLeft: '20px', position: 'relative' }}>
-              <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: '4px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-              />
-              Procesamiento en paralelo para volúmenes de terabytes a petabytes.
-            </li>
-          </ul>
+          <h3 className="split-titulo" style={{ color: DOT_DIST }}>Procesamiento distribuido (Big Data)</h3>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{renderBullets(distItems, DOT_DIST)}</ul>
         </div>
       </div>
 
-      <div className="highlight-box" style={{ marginTop: '40px' }}>
-        <p style={{ margin: 0 }}>
-          <strong>El cambio de paradigma no fue solo técnico:</strong> redefinió por completo cómo las organizaciones piensan sobre sus datos. Ya no se trataba de comprar un servidor más grande, sino de distribuir la carga entre muchas máquinas que trabajan en paralelo (Minelli et al., 2013).
-        </p>
+      <div className="highlight-box" style={{ marginTop: '1.4rem' }}>
+        <strong>El cambio de paradigma no fue solo técnico:</strong> redefinió cómo las organizaciones
+        piensan sobre sus datos. Ya no se trataba de comprar un servidor más grande, sino de
+        distribuir la carga entre muchas máquinas que trabajan en paralelo (Minelli et al., 2013).
       </div>
     </div>
   );

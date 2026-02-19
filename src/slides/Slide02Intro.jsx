@@ -62,9 +62,9 @@ export default function Slide02Intro() {
                 width: '40px',
                 height: '40px',
                 borderRadius: '50%',
-                background: '#00d4ff',
+                background: '#FA8112',
                 margin: '0 auto 15px',
-                boxShadow: '0 0 20px #00d4ff',
+                boxShadow: '0 0 20px rgba(250,129,18,0.7)',
               }}
             />
             <p style={{ fontSize: '0.75rem', color: '#888', marginTop: '10px' }}>

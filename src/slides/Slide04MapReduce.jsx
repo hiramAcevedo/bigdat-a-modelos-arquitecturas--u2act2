@@ -1,116 +1,117 @@
 import React, { useState } from 'react';
 
-export default function Slide04MapReduce() {
-  const [hoveredStep, setHoveredStep] = useState(null);
+const STEPS = [
+  { label: 'Input',   desc: 'Datos de entrada divididos en bloques independientes',    bg: '#EDD9A3', text: '#5a3a1a', border: 'rgba(250,129,18,0.45)' },
+  { label: 'Split',   desc: 'Bloques distribuidos a nodos del clúster en paralelo',   bg: '#e0c070', text: '#5a3a1a', border: 'rgba(250,129,18,0.5)'  },
+  { label: 'Map',     desc: 'Cada nodo transforma datos en pares clave-valor',         bg: '#FA8112', text: '#FAF3E1', border: 'transparent'           },
+  { label: 'Shuffle', desc: 'Pares agrupados y ordenados por clave entre nodos',       bg: '#c96d0e', text: '#FAF3E1', border: 'transparent'           },
+  { label: 'Reduce',  desc: 'Valores de cada clave se consolidan en un resultado',     bg: '#8a4a1a', text: '#FAF3E1', border: 'transparent'           },
+  { label: 'Output',  desc: 'Resultado final almacenado en HDFS o sistema destino',    bg: '#5a3a1a', text: '#FAF3E1', border: 'transparent'           },
+];
 
-  const steps = [
-    { label: 'Input', desc: 'Datos de entrada divididos en bloques', color: '#1a3a5c' },
-    { label: 'Split', desc: 'Bloques distribuidos a nodos del cluster', color: '#0f3d4a' },
-    { label: 'Map', desc: 'Cada nodo transforma en pares clave-valor', color: '#005a6e' },
-    { label: 'Shuffle', desc: 'Pares agrupados por clave entre nodos', color: '#7a2e00' },
-    { label: 'Reduce', desc: 'Valores de cada clave se consolidan', color: '#cc5500' },
-    { label: 'Output', desc: 'Resultado final almacenado en HDFS', color: '#1a3a5c' },
-  ];
+export default function Slide04MapReduce() {
+  const [hovered, setHovered] = useState(null);
 
   return (
     <div className="slide">
       <h2 className="slide-titulo">MapReduce: el modelo que lo cambió todo</h2>
-      <p className="slide-subtitulo">Modelo de procesamiento</p>
+      <p className="slide-subtitulo">Modelo de procesamiento distribuido</p>
 
-      <p className="p-slide">
-        MapReduce es un modelo de programación propuesto por Jeffrey Dean y Sanjay Ghemawat en Google (2004), diseñado para procesar grandes volúmenes de datos distribuyendo el trabajo entre múltiples máquinas. Su nombre describe con precisión las dos operaciones centrales del proceso: Map (transformar cada dato en un par clave-valor) y Reduce (consolidar todos los valores con la misma clave en un resultado final).
+      <p className="p-slide" style={{ marginBottom: '0.6rem' }}>
+        MapReduce, propuesto por Dean y Ghemawat en Google (2004), procesa grandes volúmenes
+        de datos distribuyendo el trabajo entre múltiples máquinas. Dos operaciones centrales:
+        <strong> Map</strong> (transforma cada dato en un par clave-valor) y{' '}
+        <strong>Reduce</strong> (consolida todos los valores con la misma clave). Esto permite
+        ejecutar millones de operaciones en paralelo sobre cientos de nodos.
       </p>
 
-      <p className="p-slide">
-        La fase Map toma los datos de entrada y los convierte en pares clave-valor independientes. La fase Shuffle y Sort agrupa todos los valores con la misma clave y los ordena. Finalmente, la fase Reduce procesa cada grupo y produce el resultado. Este modelo permite distribuir millones de operaciones entre cientos de nodos, ejecutándose en paralelo (Dean y Ghemawat, 2004).
-      </p>
+      {/* Diagrama de flujo: padding para que el hover (translateY) no se recorte */}
+      <div className="flujo-wrap" style={{ marginTop: '1.2rem' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '0',
+          minWidth: 'max-content',
+        }}>
+          {STEPS.map((step, idx) => (
+            <div key={idx} style={{ display: 'flex', alignItems: 'flex-start' }}>
 
-      {/* Flow diagram */}
-      <div className="flujo" style={{ marginTop: '40px' }}>
-        <style>{`
-          .flujo-paso-item {
-            position: relative;
-            flex: 1;
-            min-width: 120px;
-            transition: transform 0.3s ease;
-          }
-          .flujo-paso-item:hover {
-            transform: translateY(-5px);
-          }
-          .flujo-caja {
-            border-radius: 6px;
-            padding: 16px;
-            text-align: center;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-          }
-          .flujo-caja:hover {
-            border-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-          }
-          .flujo-flecha {
-            position: absolute;
-            top: 50%;
-            right: -24px;
-            width: 20px;
-            height: 2px;
-            background: #00d4ff;
-            transform: translateY(-50%);
-          }
-          .flujo-flecha::after {
-            content: '';
-            position: absolute;
-            right: -6px;
-            top: -4px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid #00d4ff;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-          }
-          .flujo-desc-tooltip {
-            position: absolute;
-            bottom: -45px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a2a3a;
-            border: 1px solid #00d4ff;
-            border-radius: 4px;
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-          }
-          .flujo-paso-item:hover .flujo-desc-tooltip {
-            opacity: 1;
-          }
-        `}</style>
+              {/* Nodo */}
+              <div
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', width: '110px' }}
+                onMouseEnter={() => setHovered(idx)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                <div style={{
+                  width: '90px',
+                  padding: '0.55rem 0.4rem',
+                  borderRadius: '8px',
+                  textAlign: 'center',
+                  background: step.bg,
+                  color: step.text,
+                  fontWeight: '700',
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  border: `2px solid ${step.border || step.bg}`,
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  transform: hovered === idx ? 'translateY(-4px)' : 'none',
+                  boxShadow: hovered === idx
+                    ? '0 8px 20px rgba(90,58,26,0.25)'
+                    : '0 2px 6px rgba(90,58,26,0.12)',
+                }}>
+                  {step.label}
+                </div>
 
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '30px', justifyContent: 'space-between', paddingBottom: '60px' }}>
-          {steps.map((step, idx) => (
-            <div
-              key={idx}
-              className="flujo-paso-item"
-              onMouseEnter={() => setHoveredStep(idx)}
-              onMouseLeave={() => setHoveredStep(null)}
-            >
-              <div className="flujo-caja" style={{ background: step.color }}>
-                {step.label}
+                <div style={{
+                  fontSize: '0.64rem',
+                  color: '#8a6a4a',
+                  textAlign: 'center',
+                  lineHeight: '1.35',
+                  maxWidth: '100px',
+                  minHeight: '2.5rem',
+                  transition: 'color 0.2s',
+                  ...(hovered === idx ? { color: '#5a3a1a', fontWeight: '600' } : {}),
+                }}>
+                  {step.desc}
+                </div>
               </div>
-              {idx < steps.length - 1 && <div className="flujo-flecha" />}
-              <div className="flujo-desc-tooltip">{step.desc}</div>
+
+              {/* Flecha */}
+              {idx < STEPS.length - 1 && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '32px',
+                  margin: '0 2px',
+                  marginTop: '4px',
+                }}>
+                  <div style={{
+                    width: '22px',
+                    height: '2px',
+                    background: '#FA8112',
+                    position: 'relative',
+                  }}>
+                    <div style={{
+                      position: 'absolute',
+                      right: '-1px',
+                      top: '-4px',
+                      width: 0,
+                      height: 0,
+                      borderLeft: '7px solid #FA8112',
+                      borderTop: '5px solid transparent',
+                      borderBottom: '5px solid transparent',
+                    }} />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="apa" style={{ marginTop: '30px' }}>
+      <div className="apa" style={{ marginTop: '1rem' }}>
         Dean y Ghemawat (2004); Holdsworth y Kosinski (2024)
       </div>
     </div>
